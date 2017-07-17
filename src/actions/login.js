@@ -29,7 +29,7 @@ export const postLogin = (email, password) => {
     error: function (result) {
       let errorObject = JSON.parse(result.responseText)
       let error = errorObject.error ? errorObject.error : ( errorObject.email? errorObject.email : errorObject.password )
-      console.log(error)
+      // console.log(error)
       dispatch(loginError(error))
     }
     }) 

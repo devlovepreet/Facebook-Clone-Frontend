@@ -1,6 +1,6 @@
-import { fetchRequests } from "../reducers/fetchRequests"
 import { createAction } from 'redux-actions'
 import $ from "../jquery"
+import{ getProfileResultsById} from './profileFetch'
 
 export const GET_REQUESTS_INIT = 'GET_REQUESTS_INIT'
 export const GET_REQUESTS_DONE = 'GET_REQUESTS_DONE'
@@ -8,13 +8,11 @@ export const GET_REQUESTS_DONE = 'GET_REQUESTS_DONE'
 export const CONFIRM_REQUEST_INIT = 'CONFIRM_REQUEST_INIT'
 export const CONFIRM_REQUEST_DONE = 'CONFIRM_REQUEST_DONE'
 
-export const DECLINE_REQUEST_INIT = 'DECLINE_REQUEST_INIT'
-export const DECLINE_REQUEST_DONE = 'DECLINE_REQUEST_DONE'
 
 export const DELETE_REQUEST_INIT = 'DELETE_REQUEST_INIT'
 export const DELETE_REQUEST_DONE = 'DELETE_REQUEST_DONE'
 
-export const SNED_REQUEST_INIT = 'SEND_REQUEST_INIT'
+export const SEND_REQUEST_INIT = 'SEND_REQUEST_INIT'
 export const SEND_REQUEST_DONE = 'SEND_REQUEST_DONE'
 
 
@@ -23,9 +21,6 @@ export const getRequestsDone  = createAction("GET_REQUESTS_DONE")
 
 export const confirmRequestInit  = createAction("CONFIRM_REQUEST_INIT")
 export const comfirmRequestDone  = createAction("CONFIRM_REQUEST_DONE")
-
-export const declineRequestInit  = createAction("DECLINE_REQUEST_INIT")
-export const declineRequestDone  = createAction("DECLINE_REQUEST_DONE")
 
 export const deleteRequestInit  = createAction("DELETE_REQUEST_INIT")
 export const deleteRequestDone  = createAction("DELETE_REQUEST_DONE")
@@ -44,7 +39,7 @@ export const getRequests = () => {
     url:"http://localhost:8000/request",
     type:"GET",
     xhrFields: {
-      withCredentials: true
+      withCredentials: true 
     },
     dataType:'json',
     success: function(result){
@@ -58,15 +53,15 @@ export const confirmRequest = (id) => {
   return dispatch => {
     dispatch(confirmRequestInit())
     $.ajax({
-    url:"http://localhost:8000/request",
-    type:"PUT",
-    data: { id: id},
+    url:"http://localhost:8000/request/"+id,
+    type:"POST",
     xhrFields: {
       withCredentials: true
     },
     dataType:'json',
     success: function(result){
       dispatch(comfirmRequestDone())
+      dispatch(getRequests())
     }
     }) 
   }
@@ -76,51 +71,54 @@ export const deleteRequest = (id) => {
   return dispatch => {
     dispatch(deleteRequestInit())
     $.ajax({
-    url:"http://localhost:8000/request",
-    type:"DELETE",
-    data: { id: id},
+    url:"http://localhost:8000/request/delete/"+id,
+    type:"POST",
     xhrFields: {
       withCredentials: true
     },
     dataType:'json',
     success: function(result){
       dispatch(deleteRequestDone())
+      dispatch(getRequests())
     }
     }) 
   }
 }
 
-export const declineRequest = (id) => {
-  return dispatch => {
-    dispatch(declineRequestInit())
-    $.ajax({
-    url:"http://localhost:8000/request/" + id,
-    type:"PUT",
-    xhrFields: {
-      withCredentials: true
-    },
-    dataType:'json',
-    success: function(result){
-      dispatch(declineRequestDone())
-    }
-    }) 
-  }
-}
+// export const sendRequest = (to_user_id) => {
+//   return dispatch => {
+//     dispatch(sendRequestInit())
+//     $.ajax({
+//     url:"http://localhost:8000/request",
+//     type:"POST",
+//     data: { to_user_id: to_user_id},
+//     xhrFields: {
+//       withCredentials: true
+//     },
+//     dataType:'json',
+//     success: function(result){
+//       dispatch(sendRequestDone())
 
-export const sendRequest = (id) => {
-  return dispatch => {
+//     }
+//     }) 
+//   }
+// }
+
+export const sendRequest = (to_user_id) => {
+  return (dispatch,getState) => {
     dispatch(sendRequestInit())
     $.ajax({
     url:"http://localhost:8000/request",
     type:"POST",
-    data: { id: id},
+    data: { to_user_id: to_user_id},
     xhrFields: {
       withCredentials: true
     },
     dataType:'json',
     success: function(result){
       dispatch(sendRequestDone())
-    }
+      dispatch(getProfileResultsById(to_user_id))
+    },
     }) 
   }
 }

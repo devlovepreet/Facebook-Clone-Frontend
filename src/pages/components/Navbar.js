@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getSearchResults } from '../../actions/search'
-import { getRequests } from '../../actions/fetchRequests'
+import { getRequests, confirmRequest, deleteRequest } from '../../actions/friendRequests'
 
 class Navbar extends Component {
 
   constructor(props) {
-    super(props);
-    this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
+    super(props)
+    this.handleSearchTextChange = this.handleSearchTextChange.bind(this)
+    this.handleConfirmClick = this.handleConfirmClick.bind(this)
+    this.handleDeleteClick= this.handleDeleteClick.bind(this)
+  }
+
+  componentWillMount(){
+    console.log("Navbar Mounted")
+    this.props.getRequests()
   }
 
   handleSearchTextChange(event){
@@ -17,13 +24,20 @@ class Navbar extends Component {
     getSearchResults(event.target.value)
   }
 
+  handleConfirmClick(event){
+    this.props.confirmRequest(event.target.id)
+  }
+
+  handleDeleteClick(event){
+    this.props.deleteRequest(event.target.id)
+  }
+  
   render() {
 
-    const {results, requests} = this.props
+    console.log("Navbar Rendered")
 
-    console.log(results)
+    const {results, requests, username} = this.props
 
-   
     const allSearchResults = results.map(user =>
       <div key={user.id}>
       <hr className="hr-style"/>
@@ -47,7 +61,10 @@ class Navbar extends Component {
                   <span className="request-username">{request.name}</span>
                 </div>
                 <div className="col-sm-6">
-                  <div className="request-buttons"><button className="btn btn-primary confirm-request-btn">Confirm</button><button className="btn btn-primary delete-request-btn">Delete Request</button></div>
+                  <div className="request-buttons">
+                    <button className="btn btn-primary confirm-request-btn" id={request.id} onClick={this.handleConfirmClick}>Confirm</button>
+                    <button className="btn btn-primary delete-request-btn" id={request.id} onClick={this.handleDeleteClick}>Delete Request</button>
+                  </div>
                 </div>
               </div>
         </div>
@@ -63,7 +80,7 @@ class Navbar extends Component {
 		      </div>
 
 		      <ul className="nav navbar-nav navbar-right">
-		        <li><a href="#">Lovepreet Singh</a></li>
+		        <li><a href="/user">{username}</a></li>
 		        <li><a href="#">Home</a></li>
            
            <li className="dropdown">
@@ -100,11 +117,14 @@ class Navbar extends Component {
 const mapStateToProps = state => ({
   fetching : state.profileSearch.fetching,
   results : state.profileSearch.results,
-  requestFetching : state.fetchRequests.fetching,
-  requests : state.fetchRequests.results
+  requestsFetching : state.friendRequests.fetching,
+  requestsFetched : state.friendRequests.fetched,
+  requests : state.friendRequests.results,
+  requestsSuccess: state.friendRequests.success,
+  requestsError:state.friendRequests.error
 })
 
-const mapDispatchToProps = {getSearchResults, getRequests}
+const mapDispatchToProps = {getSearchResults, getRequests, confirmRequest, deleteRequest}
 
 Navbar = connect(
   mapStateToProps,

@@ -26,8 +26,14 @@ import addPost from './reducers/addPost'
 import { addNewComment } from './actions/addComment'
 import addComment from './reducers/addComment'
 
-import { getRequests } from './actions/fetchRequests'
-import fetchRequests from './reducers/fetchRequests'
+import { getRequests } from './actions/friendRequests'
+import friendRequests from './reducers/friendRequests'
+
+import { getCurrentUser } from './actions/currentUser'
+import currentUser from './reducers/currentUser'
+
+import { getMessages, sendMessage } from './actions/messages'
+import messages from './reducers/messages'
 
 let reducers = {
 	validate,
@@ -35,7 +41,9 @@ let reducers = {
 	profileFetch,
 	addPost,
 	addComment,
-	fetchRequests
+	friendRequests,
+	currentUser,
+	messages
 }
 
 reducers = combineReducers(reducers)
@@ -61,5 +69,5 @@ ReactDOM.render(
 	document.getElementById('root')
 )
 
-store.dispatch(getRequests())
+// store.dispatch(sendMessage(1,"This is message through code from Lovepreet to chetan"))
 

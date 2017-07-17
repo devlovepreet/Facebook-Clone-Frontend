@@ -13,10 +13,12 @@ export const profileFetchError  = createAction("PROFILE_FETCH_ERROR")
 export const access_token = "access_token"
 import * as Cookie from "js-cookie"
 
+import {getCurrentUser} from '../actions/currentUser'
+
 export const getProfileResults = () => {
   return dispatch => {
     dispatch(profileFetchInit())
-    console.log(Cookie.get(access_token))
+    // console.log(Cookie.get(access_token))
     $.ajax({
     url:"http://localhost:8000/user",
     type:"GET",
@@ -25,11 +27,11 @@ export const getProfileResults = () => {
     },
     dataType:'json',
     success: function(result){
-      console.log(result)
+      // console.log(result)
       dispatch(profileFetchDone(result.user))
     },
     error: function(result){
-      console.log(result)
+      // console.log(result)
       dispatch(profileFetchError(result.responseText.error))
     }
     }) 
@@ -38,7 +40,14 @@ export const getProfileResults = () => {
 
 
 export const getProfileResultsById = (id) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    let state = getState()
+    let user = state.currentUser.user.id
+    // console.log(state.currentUser.user.id)
+    if(id === user) {
+      dispatch(getCurrentUser())
+      return
+    }
     dispatch(profileFetchInit())
     console.log(Cookie.get(access_token))
     $.ajax({

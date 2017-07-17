@@ -3,7 +3,7 @@ export const ADD_POST_DONE = 'ADD_POST_DONE'
 export const ADD_POST_ERROR = 'ADD_POST_ERROR'
 import { addPost } from "../reducers/addPost"
 import { createAction } from 'redux-actions'
-import { getProfileResults } from './profileFetch'
+import { getProfileResultsById } from './profileFetch'
 import $ from "../jquery"
 
 export const addPostInit = createAction("ADD_POST_INIT")
@@ -13,7 +13,9 @@ export const access_token = "access_token"
 import * as Cookie from "js-cookie"
 
 export const addNewPost = (content) => {
-  return dispatch => {
+  return (dispatch,getState) => {
+    let state = getState()
+    let id = state.currentUser.user.id
     dispatch(addPostInit())
     $.ajax({
     url:"http://localhost:8000/post",
@@ -25,7 +27,7 @@ export const addNewPost = (content) => {
     dataType:'json',
     success: function(result){
       dispatch(addPostDone())
-      dispatch(getProfileResults())
+      dispatch(getProfileResultsById(id))
     },
     error: function (result) {
       dispatch(addPostError(result.responseText))
