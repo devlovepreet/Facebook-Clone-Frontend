@@ -26,12 +26,16 @@ import addPost from './reducers/addPost'
 import { addNewComment } from './actions/addComment'
 import addComment from './reducers/addComment'
 
+import { getRequests } from './actions/fetchRequests'
+import fetchRequests from './reducers/fetchRequests'
+
 let reducers = {
 	validate,
 	profileSearch,
 	profileFetch,
 	addPost,
-	addComment
+	addComment,
+	fetchRequests
 }
 
 reducers = combineReducers(reducers)
@@ -57,5 +61,5 @@ ReactDOM.render(
 	document.getElementById('root')
 )
 
-store.dispatch(addNewComment(1,'This is new new comment through code.'))
+store.dispatch(getRequests())
 

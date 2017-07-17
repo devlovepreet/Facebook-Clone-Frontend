@@ -3,11 +3,15 @@ import Navbar from './components/Navbar'
 import Profile from'./components/Profile'
 
 class Home extends Component {
+	constructor(props){
+		super(props)
+	}
   render() {
+    console.log(this.props)
     return (
     	<div>
       		<Navbar/>
-      		<Profile/>
+          {this.props.children}
       	</div>
     );
   }

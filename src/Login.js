@@ -41,8 +41,7 @@ class Login extends Component {
       errorDiv = <div className="error-message-block">{loginError}</div>
     } else if(validLogin && fetched){
       console.log("Login success");
-      
-      window.location = "/user/2"
+      window.location = "/user/"
     }
 
     return (

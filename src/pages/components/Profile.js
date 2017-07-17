@@ -4,18 +4,19 @@ import { getProfileResults, getProfileResultsById } from '../../actions/profileF
 import { addNewPost } from '../../actions/addPost'
 import Post from './Post'
 
+
 class Profile extends Component {
 
 	constructor(props) {
     super(props)
     this.state = {content: ''}
     this.handlePostSubmit = this.handlePostSubmit.bind(this)
-    this.handleCommentSubmit = this.handleCommentSubmit.bind(this)
     this.handlePostContentChange = this.handlePostContentChange.bind(this)
   }
 
   componentWillMount(){
-  	this.props.getProfileResults()
+    console.log(this.props)
+    this.props.getProfileResults()
   }
 
   handlePostSubmit(event) {
@@ -30,11 +31,6 @@ class Profile extends Component {
     console.log("Profile Results Updated")
   }
 
-  handleCommentSubmit(event){
-  	event.preventDefault();
-  	console.log("Comment Added")
-  }
-
   handlePostContentChange(event){
     event.preventDefault()
     this.setState({content: event.target.value})
@@ -46,7 +42,7 @@ class Profile extends Component {
 
     if(!user) {
     	return (
-    		<div>fetching</div>
+    		<div className="loader"></div>
     	)
     }
 
@@ -71,7 +67,7 @@ class Profile extends Component {
   				<img src="/cover.jpg" className="img-responsive center-block cover-width"/>
   				<img src="/profile.jpg" className="image-responsive profile-image"/>
   				<div className="user-name">{ user.name }</div>
-	  				<button type="button" className="btn btn-default btn-message">
+	  				<button type="button" className="btn btn-default btn-message" data-toggle="modal" data-target="#myModal">
 					    <span className="glyphicon glyphicon-envelope"></span> Message
 					  </button>
 					 
@@ -86,25 +82,25 @@ class Profile extends Component {
   				<div className="col-sm-8">
 
   				<div className="add-post">
-              <form onSubmit={this.handlePostSubmit}>
-							<table className="status-heading">
+            <form onSubmit={this.handlePostSubmit}>
+						  <table className="status-heading">
                 <tbody>
-								<tr>
-									<td className="status-image-container">
-			  						<img src="/profile.jpg" className="img-responsive status-image"/>
-			  					</td>
-			  					<td className="status-title">
-											 <textarea className="form-control status-textarea" placeholder="What's on your mind ?" value={this.state.content} onChange={this.handlePostContentChange} ></textarea>
-			  					</td>
-		  						</tr>	
+  							<tr>
+  								<td className="status-image-container">
+  		  						<img src="/profile.jpg" className="img-responsive status-image"/>
+  		  					</td>
+  		  					<td className="status-title">
+  										 <textarea className="form-control status-textarea" placeholder="What's on your mind ?" value={this.state.content} onChange={this.handlePostContentChange} ></textarea>
+  		  					</td>
+  	  						</tr>	
                 </tbody>
-		  					</table>
-		  					<div className="row">
-			  					<div className="col-sm-offset-10 col-sm-2">
-			  						<button type="submit" className={"btn btn-primary status-btn "+ buttonDisabled}>Post</button>
-			  					</div>
+	  					</table>
+	  					<div className="row">
+		  					<div className="col-sm-offset-10 col-sm-2">
+		  						<button type="submit" className={"btn btn-primary status-btn "+ buttonDisabled}>Post</button>
 		  					</div>
-              </form>
+	  					</div>
+            </form>
 
                 {errorDiv}
                 {successDiv}
@@ -116,11 +112,52 @@ class Profile extends Component {
 		        key={post.id}
 		        {...post}
 		        name={user.name}
+            post_id={post.id}
 		      />) 
 				}
 
   			</div>	
-      </div> 	
+      </div>
+
+        <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content modal-content-style">
+              <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 className="modal-title" id="myModalLabel">{user.name}</h4>
+              </div>
+              <div className="modal-body modal-body-style">
+                  <div className="row">
+                    <div className="col-sm-1">
+                      <img src="/profile.jpg" className="img-responsive comment-image"/>
+                    </div>
+                    <div className="col-sm-11">
+                      <p className="message-left">Hi bro how are you ?</p>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <p className="message-right">Hi bro how are you ?</p>
+                    </div>
+                  </div>
+              </div>
+              <div className="modal-footer">
+                  <div className="row">
+                    <div className="col-sm-10">
+                      <textarea className="message-textarea" rows="1" placeholder="Type a message ..."></textarea>
+                    </div>
+                    <div className="col-sm-2">
+                      <button type="submit" className="btn btn-primary send-message-btn">Send</button>
+                    </div>
+                  </div>
+          
+             
+              </div>
+            </div>
+          </div>
+        </div> 	
+
       </div>
     );
   }

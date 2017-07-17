@@ -27,7 +27,7 @@ export const getSearchResults = (name) => {
     // beforeSend: function(xhr){xhr.setRequestHeader('access_token', Cookie.get(access_token));},
     dataType:'json',
     success: function(result){
-      console.log(result)
+      // console.log(result.users)
       dispatch(searchDone(result.users))
     }
     }) 
