@@ -56,24 +56,21 @@ class Login extends Component {
 
     return (
       <div>
-      <div className="container login-header">
-        <div className="row">
-          <div className="col-sm-offset-1 col-sm-3 title-bar">
-            <span className="title-text">facebook </span>
-            <button type="button" className="btn btn-success btn-success-align">Sign up</button>
+        <div className="container login-header">
+          <div className="row">
+            <div className="col-sm-offset-1 col-sm-3 title-bar">
+              <span className="title-text">facebook </span>
+              <button type="button" className="btn btn-success btn-success-align">Sign up</button>
+            </div>
           </div>
         </div>
-      </div>
-
-      
         <div className="row login-form-div">
           <div className="col-sm-offset-3 col-sm-6 login-form">
-
             <div className="row">
               <div className="col-sm-offset-3 col-sm-6">
-
-                <div className="login-header-text">Log in to Facebook</div>
-                
+                <div className="login-header-text">
+                  Log in to Facebook
+                </div>
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     <input type="email"  className="form-control input-radius" value={this.state.email} onChange={this.handleEmailChange} placeholder="Email" required/>
@@ -82,27 +79,20 @@ class Login extends Component {
                     <input type="password" className="form-control input-radius" value={this.state.password} onChange={this.handlePasswordChange} placeholder="Password" required/>
                   </div>
                   {errorDiv}
-                
                   <button id="loginBtn" type="submit" className={"btn btn-primary btn-block btn-login " + buttonDisabled}>Log In</button>
                   <div className="forget-password">
-                  <a href="">Forgotten account? · Sign up for Facebook</a>
+                    <a href="">Forgotten account? · Sign up for Facebook</a>
                   </div>
-
                 </form>
-                  </div>
-                </div>
-            
-
+              </div>
+            </div>
           </div>
         </div>
-
         <div className="row">
           <div className="col-sm-offset-2 col-sm-8">
             <footer className="footer">This is footer content.</footer>
           </div>
         </div>
-    
-
       </div>
 
     );

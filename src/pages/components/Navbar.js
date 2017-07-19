@@ -22,7 +22,6 @@ class Navbar extends Component {
   handleSearchTextChange(event){
   	event.preventDefault()
     const { getSearchResults } = this.props
-    // console.log(event.target.value)
     getSearchResults(event.target.value)
   }
 
@@ -40,51 +39,50 @@ class Navbar extends Component {
   }
 
   getInitials(string) {
-  var names = string.split(' '),
+    var names = string.split(' '),
       initials = names[0].substring(0, 1).toUpperCase();
-  
-  if (names.length > 1) {
+    
+    if (names.length > 1) {
       initials += names[names.length - 1].substring(0, 1).toUpperCase()
-  }
+    }
   return initials;
   }
   
   render() {
 
     console.log("Navbar Rendered")
-
     const {results, requests, username} = this.props
 
     const allSearchResults = results.map(user =>
       <div key={user.id}>
-      <hr className="hr-style"/>
-       <div className="row">
-        <div className="col-sm-12">
-          <a href={"/user/" + user.id}>
-          <span className="request-image"><img src="/profile.jpg" className="img-responsive comment-image"/></span>
-          <span className="request-username">{user.name}</span>
-          </a>
+        <hr className="hr-style"/>
+        <div className="row">
+          <div className="col-sm-12">
+            <a href={"/user/" + user.id}>
+            <span className="request-image"><img src="/profile.jpg" className="img-responsive comment-image"/></span>
+            <span className="request-username">{user.name}</span>
+            </a>
+          </div>
         </div>
-      </div>
       </div>
     )
 
     const allRequestsResults = requests.map(request =>
-        <div key={request.id}>
-          <div role="separator" className="divider"></div>
-              <div className="row">
-                <div className="col-sm-6">
-                  <span className="request-image"><img src="/profile.jpg" className="img-responsive comment-image"/></span>
-                  <span className="request-username">{request.name}</span>
-                </div>
-                <div className="col-sm-6">
-                  <div className="request-buttons">
-                    <button className="btn btn-primary confirm-request-btn" id={request.id} onClick={this.handleConfirmClick}>Confirm</button>
-                    <button className="btn btn-primary delete-request-btn" id={request.id} onClick={this.handleDeleteClick}>Delete Request</button>
-                  </div>
-                </div>
+      <div key={request.id}>
+        <div role="separator" className="divider"></div>
+          <div className="row">
+            <div className="col-sm-6">
+              <span className="request-image"><img src="/profile.jpg" className="img-responsive comment-image"/></span>
+              <span className="request-username">{request.name}</span>
+            </div>
+            <div className="col-sm-6">
+              <div className="request-buttons">
+                <button className="btn btn-primary confirm-request-btn" id={request.id} onClick={this.handleConfirmClick}>Confirm</button>
+                <button className="btn btn-primary delete-request-btn" id={request.id} onClick={this.handleDeleteClick}>Delete Request</button>
               </div>
-        </div>
+            </div>
+          </div>
+      </div>
       )
 
 
@@ -95,36 +93,30 @@ class Navbar extends Component {
 		      	<img alt="logo" className="fb-lite-logo" src="/facebook-lite-logo.jpg"/>
 		        <input id="search-box" type="text" className="form-control form-specs" onChange={this.handleSearchTextChange} placeholder="Search Users here"/>       
 		      </div>
-
 		      <ul className="nav navbar-nav navbar-right">
 		        <li><a href="/user"><div className="nav-profile-image"><p>{this.getInitials(username)}</p></div>{username}</a></li>
 		        <li><a href="/user">Home</a></li>
-           
-           <li>
-            <a href="#" id="navbar-caret" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-user-plus" aria-hidden="true"></i></a>
-            <div className="dropdown-menu dropdown-width">
-              <div className="friend-request-text">Friend Requests</div>
-              
-              {allRequestsResults}
-
-            </div>
-          </li>
-
-          <li>
-            <a href="#" id="navbar-caret" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-caret-down" aria-hidden="true"></i></a>
-            <ul className="dropdown-menu dropdown-logout">
-              <li><a href="#">Activity log</a></li>
-              <li><a href="#">Settings</a></li>
-              <li><a onClick={this.handleLogoutClick}>Log out</a></li>
-            </ul>
-           
-          </li>
+            <li>
+              <a href="#" id="navbar-caret" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-user-plus" aria-hidden="true"></i></a>
+              <div className="dropdown-menu dropdown-width">
+                <div className="friend-request-text">
+                  Friend Requests
+                </div>
+                {allRequestsResults}
+              </div>
+            </li>
+            <li>
+              <a href="#" id="navbar-caret" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-caret-down" aria-hidden="true"></i></a>
+              <ul className="dropdown-menu dropdown-logout">
+                <li><a href="#">Activity log</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a onClick={this.handleLogoutClick}>Log out</a></li>
+              </ul>
+            </li>
 		      </ul>
-
           <div id="divResults">
           {allSearchResults}
           </div>
-
 			  </div>
 			</nav>
     );

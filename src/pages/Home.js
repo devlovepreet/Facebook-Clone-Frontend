@@ -25,9 +25,9 @@ class Home extends Component {
     
     return (
     	<div>
-      		<Navbar username={user.name}/>
-          {this.props.children}
-      	</div>
+    		<Navbar username={user.name}/>
+        {this.props.children}
+    	</div>
     );
   }
 }

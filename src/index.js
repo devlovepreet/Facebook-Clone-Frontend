@@ -5,12 +5,10 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux'
 import { Router, Route, browserHistory, IndexRoute, Redirect } from 'react-router'
-
 import Login from './Login'
 import Home from './pages/Home'
 import Profile from './pages/components/Profile'
 import './App.scss'
-
 import validate from './reducers/login'
 import profileSearch from './reducers/search'
 import profileFetch from './reducers/profileFetch'
@@ -32,7 +30,6 @@ let reducers = {
 }
 
 reducers = combineReducers(reducers)
-
 const store = createStore(
   reducers,
   applyMiddleware(thunk, logger)
@@ -53,6 +50,4 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('root')
 )
-
-// store.dispatch(sendMessage(1,"This is message through code from Lovepreet to chetan"))
 

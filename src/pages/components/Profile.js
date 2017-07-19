@@ -25,8 +25,6 @@ class Profile extends Component {
   componentWillMount(){
     console.log("Profile Mounted")
     if(this.props.params.user_id){
-      console.log(this.props.currentUser.id)
-      console.log(this.props.params.user_id)
       if(this.props.params.user_id != this.props.currentUser.id){
         this.props.getProfileResultsById(this.props.params.user_id)
       }
@@ -38,7 +36,7 @@ class Profile extends Component {
     event.preventDefault()
     
     let elem = $('#status-td').children()
-    console.log(elem)
+    // console.log(elem)
     $(elem).height(40)
 
     console.log(this.state.content)
@@ -46,7 +44,7 @@ class Profile extends Component {
     if(!postError){
       this.setState({content: ''})
     }
-    console.log("Profile Results Updated")
+    // console.log("Profile Results Updated")
   }
 
   handlePostContentChange(event){
@@ -85,7 +83,6 @@ class Profile extends Component {
       let elem = $('#message-div').children()
       console.log(elem)
       $(elem).height(16)
-
     }
   }
 
@@ -95,29 +92,31 @@ class Profile extends Component {
 
   getInitials(string) {
     var names = string.split(' '),
-        initials = names[0].substring(0, 1).toUpperCase();
+      initials = names[0].substring(0, 1).toUpperCase();
     
     if (names.length > 1) {
-        initials += names[names.length - 1].substring(0, 1).toUpperCase()
+      initials += names[names.length - 1].substring(0, 1).toUpperCase()
     }
     return initials;
-  }
-
-  fixTextarea(){
-    $('.auto-text-area').on('change keyup keydown paste cut', 'textarea', function (){
-      $(this).height(0).height(this.scrollHeight);
-      }).find( 'textarea' ).change();
   }
 
   render() {
 
     console.log("Profile Rendered")
-
-    // this.fixTextarea()
-
   	const {error, user, fetching, fetched, posting , posted , currentUser, messages} = this.props
+    // let tempUser = this.props.params.user_id ? (this.props.params.user_id == this.props.currentUser.id ? currentUser : user ) : currentUser 
 
-    let tempUser = this.props.params.user_id ? (this.props.params.user_id == this.props.currentUser.id ? currentUser : user ) : currentUser 
+    let tempUser = null
+    if(this.props.params.user_id){
+      if(this.props.params.user_id == this.props.currentUser.id){
+        tempUser = currentUser
+      }
+      else{
+        tempUser = user
+      }
+    }else{
+      tempUser = currentUser
+    }
 
     if(!tempUser) {
     	return (
@@ -143,18 +142,18 @@ class Profile extends Component {
     let status = null
     let allMessages = null
     if(tempUser == currentUser){
-      // no buttons to show yet
+      
       status = <div className="add-post">
           <form onSubmit={this.handlePostSubmit} className="status-form-align">
             <table className="status-heading">
               <tbody>
-              <tr>
-                <td className="status-image-container">
-                 <div className="status-image"><p>{this.getInitials(tempUser.name)}</p></div>
-                </td>
-                <td id="status-td" className="status-title">
-                     <textarea className="form-control status-textarea" placeholder="What's on your mind ?" value={this.state.content} onChange={this.handlePostContentChange} ></textarea>
-                </td>
+                <tr>
+                  <td className="status-image-container">
+                    <div className="status-image"><p>{this.getInitials(tempUser.name)}</p></div>
+                  </td>
+                  <td id="status-td" className="status-title">
+                    <textarea className="form-control status-textarea" placeholder="What's on your mind ?" value={this.state.content} onChange={this.handlePostContentChange} ></textarea>
+                  </td>
                 </tr> 
               </tbody>
             </table>
@@ -176,35 +175,38 @@ class Profile extends Component {
       if(tempUser.isFriends){
         // this user is friend of current user
         if(messages){
-          allMessages = messages.map(message =>
-                message.from_user_id==tempUser.id?
-                  <div key={message.id} className="row">
-                        <div className="col-sm-1">
-                          <div className="comment-image"><p>{this.getInitials(tempUser.name)}</p></div>
-                        </div>
-                        <div className="col-sm-11">
-                          <p className="message-left">{message.content}</p>
-                        </div>
+          allMessages = messages.map(message => {
+            if(message.from_user_id==tempUser.id) {
+              return (
+                <div key={message.id} className="row">
+                  <div className="col-sm-1">
+                    <div className="comment-image"><p>{this.getInitials(tempUser.name)}</p></div>
                   </div>
-                :
-                
-                  <div key={message.id} className="row">
-                        <div className="col-sm-11">
-                          <p className="message-right">{message.content}</p>
-                        </div>
+                  <div className="col-sm-11">
+                    <p className="message-left">{message.content}</p>
                   </div>
-          )
+                </div>
+              )
+            } else {
+              return (
+                <div key={message.id} className="row">
+                  <div className="col-sm-11">
+                    <p className="message-right">{message.content}</p>
+                  </div>
+                </div>
+              )
+            }
+          })
         }
           
-
         buttons = <a type="button" className="btn btn-default btn-message" data-toggle="modal" data-target="#myModal" onClick={this.handleMessageButtonClick}>
-              <i className="fa fa-envelope" aria-hidden="true"></i> Message
-            </a>
+            <i className="fa fa-envelope" aria-hidden="true"></i> Message
+          </a>
 
       }else{
 
         if(tempUser.status == "pending"){
-           buttons = <a type="button" className="btn btn-default btn-message" onClick={this.handleCancelRequestClick}>
+          buttons = <a type="button" className="btn btn-default btn-message" onClick={this.handleCancelRequestClick}>
               <i className="fa fa-user-times" aria-hidden="true"></i> Cancel Friend Request
             </a>
         }else{
@@ -223,16 +225,8 @@ class Profile extends Component {
   				<img src="/cover.jpg" className="img-responsive center-block cover-width"/>
   				<div className="profile-image prof-chars"><p>{this.getInitials(tempUser.name)}</p></div>
   				<a href={"/user/"+tempUser.id}className="user-name">{ tempUser.name }</a>
-
-	  				{buttons}
-					 
+	  			{buttons}
   			</div>
-
-        <div className="row">
-          <div className="col-sm-12">
-          </div>
-        </div>
-
   			<div className="row">
   				<div className="col-sm-4">
   					<div className="sidebar">
@@ -240,24 +234,19 @@ class Profile extends Component {
   					</div>
   				</div>
   				<div className="col-sm-8">
-
-  				{status}
-
-
-					{ tempUser.posts.map(post =>
-		      	<Post
-		        key={post.id}
-		        {...post}
-		        name={tempUser.name}
-            post_id={post.id}
-            currentUser = {currentUser}
-            tempUser={tempUser}
-		      />) 
-				}
-
-  			</div>	
-      </div>
-
+      				{status}
+    					{ tempUser.posts.map(post =>
+      		      	<Post
+      		        key={post.id}
+      		        {...post}
+      		        name={tempUser.name}
+                  post_id={post.id}
+                  currentUser = {currentUser}
+                  tempUser={tempUser}
+    		        />) 
+    				  }
+      		</div>	
+        </div>
         <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div className="modal-dialog modal-lg" role="document">
             <div className="modal-content modal-content-style">
@@ -269,24 +258,22 @@ class Profile extends Component {
                   {allMessages}
               </div>
               <div className="modal-footer">
-                  <div className="row">
-                    <div className="col-sm-11">
-                      <div id="message-div" className="message-textarea-align">
-                        <textarea className="message-textarea" rows="1" value={this.state.messageText} onChange={this.handleMessageTextOnChange} placeholder="Type a message ..."></textarea>
-                      </div>
+                <div className="row">
+                  <div className="col-sm-11">
+                    <div id="message-div" className="message-textarea-align">
+                      <textarea className="message-textarea" rows="1" value={this.state.messageText} onChange={this.handleMessageTextOnChange} placeholder="Type a message ..."></textarea>
                     </div>
-                    <div className="col-sm-1">
-                      <div className="message-btn-align">
-                        <button type="submit" className="btn btn-primary send-message-btn" onClick={this.handleSendMessageClick}>Send</button>
-                      </div>
+                  </div>
+                  <div className="col-sm-1">
+                    <div className="message-btn-align">
+                      <button type="submit" className="btn btn-primary send-message-btn" onClick={this.handleSendMessageClick}>Send</button>
                     </div>
-                  </div>   
+                  </div>
+                </div>   
               </div>
             </div>
           </div>
         </div> 	
-
-
       </div>
     );
   }
