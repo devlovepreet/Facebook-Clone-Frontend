@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getProfileResults, getProfileResultsById } from '../../actions/profileFetch'
-import {sendRequest, deleteRequest} from '../../actions/friendRequests'
-import {sendMessage, getMessages} from '../../actions/messages'
-import { addNewPost } from '../../actions/addPost'
+import { sendRequest, deleteRequest, deleteRequestByUserId } from '../../actions/friendRequests'
+import { sendMessage, getMessages } from '../../actions/messages'
+import { addNewPost } from '../../actions/posts'
 import Post from './Post'
+import $ from '../../jquery'
 
 
 class Profile extends Component {
@@ -26,29 +27,34 @@ class Profile extends Component {
     if(this.props.params.user_id){
       console.log(this.props.currentUser.id)
       console.log(this.props.params.user_id)
-      if(this.props.params.user_id == this.props.currentUser.id){
-        // this.props.getProfileResults();
-      }else{
+      if(this.props.params.user_id != this.props.currentUser.id){
         this.props.getProfileResultsById(this.props.params.user_id)
       }
-    }else{
-     // this.props.getProfileResults();
     }
   }
 
   handlePostSubmit(event) {
     const {addNewPost, getProfileResults, postError} = this.props
     event.preventDefault()
+    
+    let elem = $('#status-td').children()
+    console.log(elem)
+    $(elem).height(40)
+
+    console.log(this.state.content)
     addNewPost(this.state.content)
     if(!postError){
       this.setState({content: ''})
     }
-
     console.log("Profile Results Updated")
   }
 
   handlePostContentChange(event){
     event.preventDefault()
+    let elem = $('#status-td')
+    let textArea = elem.children()
+    textArea = textArea[0]
+    $(textArea).height(0).height(textArea.scrollHeight)
     this.setState({content: event.target.value})
   }
 
@@ -58,11 +64,16 @@ class Profile extends Component {
   }
 
   handleCancelRequestClick(event){
-    // this.props.deleteRequest()
+    event.preventDefault()
+    this.props.deleteRequestByUserId(this.props.user.id)
   }
 
   handleMessageTextOnChange(event){
     event.preventDefault()
+    let elem = $('#message-div')
+    let textArea = elem.children()
+    textArea = textArea[0]
+    $(textArea).height(0).height(textArea.scrollHeight)
     this.setState({messageText: event.target.value})
   }
 
@@ -70,6 +81,11 @@ class Profile extends Component {
     if(this.state.messageText){
       this.props.sendMessage(this.props.user.id,this.state.messageText)
       this.setState({messageText:''})
+
+      let elem = $('#message-div').children()
+      console.log(elem)
+      $(elem).height(16)
+
     }
   }
 
@@ -77,11 +93,29 @@ class Profile extends Component {
     this.props.getMessages(this.props.user.id)
   }
 
+  getInitials(string) {
+    var names = string.split(' '),
+        initials = names[0].substring(0, 1).toUpperCase();
+    
+    if (names.length > 1) {
+        initials += names[names.length - 1].substring(0, 1).toUpperCase()
+    }
+    return initials;
+  }
+
+  fixTextarea(){
+    $('.auto-text-area').on('change keyup keydown paste cut', 'textarea', function (){
+      $(this).height(0).height(this.scrollHeight);
+      }).find( 'textarea' ).change();
+  }
+
   render() {
 
     console.log("Profile Rendered")
 
-  	const {error, user, fetching, fetched, posting , posted, postError , currentUser, messages} = this.props
+    // this.fixTextarea()
+
+  	const {error, user, fetching, fetched, posting , posted , currentUser, messages} = this.props
 
     let tempUser = this.props.params.user_id ? (this.props.params.user_id == this.props.currentUser.id ? currentUser : user ) : currentUser 
 
@@ -97,13 +131,13 @@ class Profile extends Component {
     if(posting) {
       buttonDisabled = "disabled"
     }
-    if(!posting && postError) {
-      console.log(postError)
-      errorDiv = <div className="error-message-block">{postError}</div>
-    } else if(!posting && posted && !postError){
-      console.log("Post Success");
-      successDiv = <div className="success-message-block">Post Added</div>
-    }
+    // if(!posting && posted) {
+    //   console.log(postError)
+    //   errorDiv = <div className="error-message-block">{postError}</div>
+    // } else if(!posting && posted){
+    //   console.log("Post Success");
+    //   successDiv = <div className="success-message-block">Post Added</div>
+    // }
 
     let buttons = null
     let status = null
@@ -111,14 +145,14 @@ class Profile extends Component {
     if(tempUser == currentUser){
       // no buttons to show yet
       status = <div className="add-post">
-          <form onSubmit={this.handlePostSubmit}>
+          <form onSubmit={this.handlePostSubmit} className="status-form-align">
             <table className="status-heading">
               <tbody>
               <tr>
                 <td className="status-image-container">
-                  <img src="/profile.jpg" className="img-responsive status-image"/>
+                 <div className="status-image"><p>{this.getInitials(tempUser.name)}</p></div>
                 </td>
-                <td className="status-title">
+                <td id="status-td" className="status-title">
                      <textarea className="form-control status-textarea" placeholder="What's on your mind ?" value={this.state.content} onChange={this.handlePostContentChange} ></textarea>
                 </td>
                 </tr> 
@@ -126,7 +160,9 @@ class Profile extends Component {
             </table>
             <div className="row">
               <div className="col-sm-offset-10 col-sm-2">
-                <button type="submit" className={"btn btn-primary status-btn "+ buttonDisabled}>Post</button>
+                <div className="status-btn-align">
+                  <button type="submit" className={"btn btn-primary status-btn "+ buttonDisabled}>Post</button>
+                </div>
               </div>
             </div>
           </form>
@@ -144,7 +180,7 @@ class Profile extends Component {
                 message.from_user_id==tempUser.id?
                   <div key={message.id} className="row">
                         <div className="col-sm-1">
-                          <img src="/profile.jpg" className="img-responsive comment-image"/>
+                          <div className="comment-image"><p>{this.getInitials(tempUser.name)}</p></div>
                         </div>
                         <div className="col-sm-11">
                           <p className="message-left">{message.content}</p>
@@ -185,12 +221,17 @@ class Profile extends Component {
       <div className="col-sm-offset-2 col-sm-8">
   			<div className="cover">
   				<img src="/cover.jpg" className="img-responsive center-block cover-width"/>
-  				<img src="/profile.jpg" className="image-responsive profile-image"/>
-  				<a className="user-name">{ tempUser.name }</a>
+  				<div className="profile-image prof-chars"><p>{this.getInitials(tempUser.name)}</p></div>
+  				<a href={"/user/"+tempUser.id}className="user-name">{ tempUser.name }</a>
 
 	  				{buttons}
 					 
   			</div>
+
+        <div className="row">
+          <div className="col-sm-12">
+          </div>
+        </div>
 
   			<div className="row">
   				<div className="col-sm-4">
@@ -229,17 +270,22 @@ class Profile extends Component {
               </div>
               <div className="modal-footer">
                   <div className="row">
-                    <div className="col-sm-10">
-                      <textarea className="message-textarea" rows="1" value={this.state.messageText} onChange={this.handleMessageTextOnChange} placeholder="Type a message ..."></textarea>
+                    <div className="col-sm-11">
+                      <div id="message-div" className="message-textarea-align">
+                        <textarea className="message-textarea" rows="1" value={this.state.messageText} onChange={this.handleMessageTextOnChange} placeholder="Type a message ..."></textarea>
+                      </div>
                     </div>
-                    <div className="col-sm-2">
-                      <button type="submit" className="btn btn-primary send-message-btn" onClick={this.handleSendMessageClick}>Send</button>
+                    <div className="col-sm-1">
+                      <div className="message-btn-align">
+                        <button type="submit" className="btn btn-primary send-message-btn" onClick={this.handleSendMessageClick}>Send</button>
+                      </div>
                     </div>
                   </div>   
               </div>
             </div>
           </div>
         </div> 	
+
 
       </div>
     );
@@ -252,14 +298,13 @@ const mapStateToProps = state => ({
   fetched : state.profileFetch.fetched,
   user : state.profileFetch.user,
   error : state.profileFetch.error,
-  posting: state.addPost.posting,
-  posted:state.addPost.posted,
-  postError: state.addPost.error,
+  posting: state.posts.fetching,
+  posted:state.posts.fetched,
   currentUser : state.currentUser.user,
   messages: state.messages.results
 })
 
-const mapDispatchToProps = { getProfileResults , getProfileResultsById, addNewPost ,sendRequest, deleteRequest, sendMessage, getMessages} 
+const mapDispatchToProps = { getProfileResults , getProfileResultsById, addNewPost,sendRequest, deleteRequest, deleteRequestByUserId, sendMessage, getMessages} 
 
 Profile = connect(
   mapStateToProps,

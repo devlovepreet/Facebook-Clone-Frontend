@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getSearchResults } from '../../actions/search'
 import { getRequests, confirmRequest, deleteRequest } from '../../actions/friendRequests'
+import { postLogout } from '../../actions/login'
 
 class Navbar extends Component {
 
@@ -10,6 +11,7 @@ class Navbar extends Component {
     this.handleSearchTextChange = this.handleSearchTextChange.bind(this)
     this.handleConfirmClick = this.handleConfirmClick.bind(this)
     this.handleDeleteClick= this.handleDeleteClick.bind(this)
+    this.handleLogoutClick = this.handleLogoutClick.bind(this)
   }
 
   componentWillMount(){
@@ -20,7 +22,7 @@ class Navbar extends Component {
   handleSearchTextChange(event){
   	event.preventDefault()
     const { getSearchResults } = this.props
-    console.log(event.target.value)
+    // console.log(event.target.value)
     getSearchResults(event.target.value)
   }
 
@@ -30,6 +32,21 @@ class Navbar extends Component {
 
   handleDeleteClick(event){
     this.props.deleteRequest(event.target.id)
+  }
+
+  handleLogoutClick(event){
+    const {postLogout} = this.props
+    postLogout()
+  }
+
+  getInitials(string) {
+  var names = string.split(' '),
+      initials = names[0].substring(0, 1).toUpperCase();
+  
+  if (names.length > 1) {
+      initials += names[names.length - 1].substring(0, 1).toUpperCase()
+  }
+  return initials;
   }
   
   render() {
@@ -72,7 +89,7 @@ class Navbar extends Component {
 
 
     return (
-      <nav className="navbar-changed navbar-blue">
+      <nav className="navbar-blue">
 		  	<div className="col-md-offset-2 col-md-8">
 	      	<div className="row titlebar-left">
 		      	<img alt="logo" className="fb-lite-logo" src="/facebook-lite-logo.jpg"/>
@@ -80,11 +97,11 @@ class Navbar extends Component {
 		      </div>
 
 		      <ul className="nav navbar-nav navbar-right">
-		        <li><a href="/user">{username}</a></li>
-		        <li><a href="#">Home</a></li>
+		        <li><a href="/user"><div className="nav-profile-image"><p>{this.getInitials(username)}</p></div>{username}</a></li>
+		        <li><a href="/user">Home</a></li>
            
-           <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-user-plus" aria-hidden="true"></i></a>
+           <li>
+            <a href="#" id="navbar-caret" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-user-plus" aria-hidden="true"></i></a>
             <div className="dropdown-menu dropdown-width">
               <div className="friend-request-text">Friend Requests</div>
               
@@ -93,12 +110,12 @@ class Navbar extends Component {
             </div>
           </li>
 
-          <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-caret-down" aria-hidden="true"></i></a>
-            <ul className="dropdown-menu">
+          <li>
+            <a href="#" id="navbar-caret" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-caret-down" aria-hidden="true"></i></a>
+            <ul className="dropdown-menu dropdown-logout">
               <li><a href="#">Activity log</a></li>
               <li><a href="#">Settings</a></li>
-              <li><a href="#">Log out</a></li>
+              <li><a onClick={this.handleLogoutClick}>Log out</a></li>
             </ul>
            
           </li>
@@ -121,10 +138,13 @@ const mapStateToProps = state => ({
   requestsFetched : state.friendRequests.fetched,
   requests : state.friendRequests.results,
   requestsSuccess: state.friendRequests.success,
-  requestsError:state.friendRequests.error
+  requestsError:state.friendRequests.error,
+  logoutFetching:state.validate.fetching,
+  logoutFetched:state.validate.fetched,
+  logoutError:state.validate.error
 })
 
-const mapDispatchToProps = {getSearchResults, getRequests, confirmRequest, deleteRequest}
+const mapDispatchToProps = {getSearchResults, getRequests, confirmRequest, deleteRequest, postLogout}
 
 Navbar = connect(
   mapStateToProps,

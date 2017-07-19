@@ -85,24 +85,26 @@ export const deleteRequest = (id) => {
   }
 }
 
-// export const sendRequest = (to_user_id) => {
-//   return dispatch => {
-//     dispatch(sendRequestInit())
-//     $.ajax({
-//     url:"http://localhost:8000/request",
-//     type:"POST",
-//     data: { to_user_id: to_user_id},
-//     xhrFields: {
-//       withCredentials: true
-//     },
-//     dataType:'json',
-//     success: function(result){
-//       dispatch(sendRequestDone())
+export const deleteRequestByUserId = (to_user_id) => {
+  return dispatch => {
+    dispatch(deleteRequestInit())
+    $.ajax({
+    url:"http://localhost:8000/request/cancel/"+to_user_id,
+    type:"POST",
+    xhrFields: {
+      withCredentials: true
+    },
+    dataType:'json',
+    success: function(result){
+      dispatch(deleteRequestDone())
+      dispatch(getRequests())
+      dispatch(getProfileResultsById(to_user_id))
+    }
+    }) 
+  }
+}
 
-//     }
-//     }) 
-//   }
-// }
+
 
 export const sendRequest = (to_user_id) => {
   return (dispatch,getState) => {

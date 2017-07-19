@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { postLogin } from './actions/login'
 import { Redirect, withRouter } from 'react-router'
 
+export const access_token = "access_token"
+import * as Cookie from "js-cookie"
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +12,13 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+  }
+
+  componentWillMount(){
+    console.log("Login Mounted")
+    if(Cookie.get(access_token)){
+      window.location = '/user'
+    }
   }
 
   handleEmailChange(event){
@@ -31,6 +40,7 @@ class Login extends Component {
 
   render() {
     const {loginError, validLogin, fetching, fetched} = this.props
+
     let errorDiv = null
     let buttonDisabled = null
     if(fetching) {

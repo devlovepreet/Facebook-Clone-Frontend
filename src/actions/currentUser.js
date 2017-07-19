@@ -27,6 +27,8 @@ export const getCurrentUser = () => {
       dispatch(currentUserDone(result.user))
     },
     error: function(result){
+      window.location = '/login'
+      Cookie.remove(access_token)
       dispatch(currentUserError(result.responseText.error))
     }
     }) 

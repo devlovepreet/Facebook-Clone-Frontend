@@ -14,6 +14,7 @@ class Home extends Component {
     this.props.getCurrentUser()
   }
   render() {
+
     const {user } = this.props
     console.log("Home Rendered")
     if(!user) {
