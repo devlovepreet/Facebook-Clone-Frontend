@@ -6,6 +6,7 @@ import { sendMessage, getMessages } from '../../actions/messages'
 import { addNewPost } from '../../actions/posts'
 import Post from './Post'
 import $ from '../../jquery'
+import CoverImage from '../../cover.jpg'
 
 
 class Profile extends Component {
@@ -34,17 +35,13 @@ class Profile extends Component {
   handlePostSubmit(event) {
     const {addNewPost, getProfileResults, postError} = this.props
     event.preventDefault()
-    
     let elem = $('#status-td').children()
-    // console.log(elem)
     $(elem).height(40)
 
-    console.log(this.state.content)
-    addNewPost(this.state.content)
-    if(!postError){
+    if(this.state.content){
+      addNewPost(this.state.content)
       this.setState({content: ''})
-    }
-    // console.log("Profile Results Updated")
+    }      
   }
 
   handlePostContentChange(event){
@@ -222,7 +219,7 @@ class Profile extends Component {
     return (
       <div className="col-sm-offset-2 col-sm-8">
   			<div className="cover">
-  				<img src="/cover.jpg" className="img-responsive center-block cover-width"/>
+  				<img src={"/"+CoverImage} className="img-responsive center-block cover-width"/>
   				<div className="profile-image prof-chars"><p>{this.getInitials(tempUser.name)}</p></div>
   				<a href={"/user/"+tempUser.id}className="user-name">{ tempUser.name }</a>
 	  			{buttons}

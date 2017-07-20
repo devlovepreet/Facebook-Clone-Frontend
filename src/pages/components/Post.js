@@ -21,15 +21,16 @@ class Post extends Component {
     event.preventDefault()
     let elem = $('#add-comment-'+id).children()
   	$(elem).height(16)
-    if(currentUser == tempUser){
-    	addNewComment(this.props.post_id,this.state.text,currentUser.id)
-    }else{
-    	addNewComment(this.props.post_id,this.state.text,tempUser.id)
-    }
-   
-    if(!commentError){
-      this.setState({text: ''})
-    }
+  	if(this.state.text){
+  		if(currentUser == tempUser){
+    		addNewComment(this.props.post_id,this.state.text,currentUser.id)
+	    }else{
+	    	addNewComment(this.props.post_id,this.state.text,tempUser.id)
+	    }
+	    this.setState({text: ''})
+  	}
+    
+      
   }
 
   handleCommentContentChange(event){
@@ -49,8 +50,10 @@ class Post extends Component {
 
   handleUpdatePostSubmit(event){
   	console.log("Post submit")
-  	this.props.updatePost(this.props.id, this.state.updatePostContent)
-  	$('#modal-'+this.props.id).modal('hide')
+  	if(this.state.updatePostContent){
+  		this.props.updatePost(this.props.id, this.state.updatePostContent)
+  		$('#modal-'+this.props.id).modal('hide')
+  	}
   }
 
   handleDeletePostSubmit(event){
@@ -63,12 +66,14 @@ class Post extends Component {
   	const {updateComment ,currentUser, tempUser} = this.props
   	let id = $(event.target).data('id')
   	let content = $('#textarea-'+id).val()
-  	if(currentUser == tempUser){
-    	updateComment(id,content,currentUser.id)
-    }else{
-    	updateComment(id,content,tempUser.id)
-    }
-  	$('#comment-modal-'+id).modal('hide')
+  	if(content){
+  		if(currentUser == tempUser){
+	    	updateComment(id,content,currentUser.id)
+	    }else{
+	    	updateComment(id,content,tempUser.id)
+	    }
+	  	$('#comment-modal-'+id).modal('hide')
+  	}
   }
 
   handleDeleteCommentSubmit(event){

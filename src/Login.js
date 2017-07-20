@@ -88,11 +88,6 @@ class Login extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-sm-offset-2 col-sm-8">
-            <footer className="footer">This is footer content.</footer>
-          </div>
-        </div>
       </div>
 
     );

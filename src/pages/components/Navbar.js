@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { getSearchResults } from '../../actions/search'
 import { getRequests, confirmRequest, deleteRequest } from '../../actions/friendRequests'
 import { postLogout } from '../../actions/login'
+import facebookLiteLogo from '../../facebook-lite-logo.jpg'
 
 class Navbar extends Component {
 
@@ -58,9 +59,9 @@ class Navbar extends Component {
         <hr className="hr-style"/>
         <div className="row">
           <div className="col-sm-12">
-            <a href={"/user/" + user.id}>
-            <span className="request-image"><img src="/profile.jpg" className="img-responsive comment-image"/></span>
-            <span className="request-username">{user.name}</span>
+            <a className="request-link" href={"/user/" + user.id}>
+              <div className="request-image"><p>{this.getInitials(user.name)}</p></div>
+              <div className="request-username">{user.name}</div>
             </a>
           </div>
         </div>
@@ -72,8 +73,8 @@ class Navbar extends Component {
         <div role="separator" className="divider"></div>
           <div className="row">
             <div className="col-sm-6">
-              <span className="request-image"><img src="/profile.jpg" className="img-responsive comment-image"/></span>
-              <span className="request-username">{request.name}</span>
+              <div className="request-image"><p>{this.getInitials(request.name)}</p></div>
+              <div className="request-username">{request.name}</div>
             </div>
             <div className="col-sm-6">
               <div className="request-buttons">
@@ -90,7 +91,7 @@ class Navbar extends Component {
       <nav className="navbar-blue">
 		  	<div className="col-md-offset-2 col-md-8">
 	      	<div className="row titlebar-left">
-		      	<img alt="logo" className="fb-lite-logo" src="/facebook-lite-logo.jpg"/>
+		      	<img alt="logo" className="fb-lite-logo" src={"/"+facebookLiteLogo}/>
 		        <input id="search-box" type="text" className="form-control form-specs" onChange={this.handleSearchTextChange} placeholder="Search Users here"/>       
 		      </div>
 		      <ul className="nav navbar-nav navbar-right">

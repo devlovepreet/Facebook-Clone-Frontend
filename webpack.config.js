@@ -39,6 +39,12 @@ const extractSass = new ExtractTextPlugin({
                 fallback: "style-loader"
             })
         },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: [
+            'file-loader'
+          ]
+        }
      ]
    },
    plugins: [
