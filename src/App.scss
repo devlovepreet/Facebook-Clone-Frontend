@@ -127,6 +127,10 @@ body{
   display: inline-flex;
 }
 
+.results-box-left {
+  width: 40.5%;
+}
+
 .navbar-blue {
   background-color: $primaryColor;
   border-color: $primaryColor;
@@ -168,7 +172,7 @@ body{
 }
 */
 #navbar-caret{
-  margin-top: 10px;
+  padding: 10px 10px 9px 10px;
 }
 
 .form-specs{
@@ -233,7 +237,7 @@ body{
   padding: 5px 10px;
 }
 
-a.user-name{
+span.user-name{
   position: absolute;
   left:200px;
   bottom:20px;
@@ -241,11 +245,6 @@ a.user-name{
   font-size: 1.4em;
   font-style: normal;
 }
-
-a.user-name :hover{
-  color: #FFF; 
-}
-
 
 .cover-links{
   background-color: #FFF;
@@ -290,7 +289,6 @@ a.user-name :hover{
 
 .post-date{
   font-size: 12px;
-  padding-top: 4px;
 }
 
 .post-username{
@@ -298,19 +296,24 @@ a.user-name :hover{
   color: $primaryColor;
 }
 
-.post-content{
-  margin: 10px 0px 0px 0px;
-}
-
 .post-image-container{
-  width:50px;
   vertical-align: top;
 }
 
 .post-heading{
   width: 100%;
+  display: inline-flex;
 }
 
+.post-content{
+  padding-top: 10px;
+}
+
+.post-name-time{
+  vertical-align: top;
+  width: 100%;
+  padding-left: 10px;
+}
 .status-btn{
   margin-top:10px;
   border-radius: 0px;
@@ -321,13 +324,18 @@ a.user-name :hover{
 
 .status-image-container{
   width:10%;
-  height: 50px;
   vertical-align: top;
 }
 
 .status-heading{
   width: 100%;
   height: inherit;
+  display: inline-flex;
+}
+
+.status-post {
+  width: 100%;
+  display: inline-block;
 }
 
 .status-image{
@@ -345,6 +353,10 @@ a.user-name :hover{
   text-align: center;
 }
 
+#status-td {
+  width: 100%;
+}
+
 #status-td > .status-textarea{
   width: 100%;
   padding: 5px 5px;
@@ -358,7 +370,7 @@ a.user-name :hover{
 
 .comments-area{
   background-color: #F6F7F9;
-  padding: 5px 15px 5px 15px;
+  padding: 10px 15px 5px 15px;
   margin: 0px 0px 10px 0px; 
 }
 
@@ -378,7 +390,7 @@ a.user-name :hover{
 }
 
 .comment-username{
-  font-size: 14px;
+  font-size: 13px;
   color: $primaryColor;
 }
 
@@ -391,8 +403,13 @@ a.user-name :hover{
 
 .comment-heading{
   width: 100%;
-  padding: 10px 0px;
-  margin: 10px 0px;
+  margin-bottom: 5px;
+  display: inline-flex;
+}
+
+.add-comment-wrapper{
+  width: 100%;
+  display: inline-flex;
 }
 
 .comment-textarea{
@@ -400,7 +417,7 @@ a.user-name :hover{
   border-radius: 0;
   background-color: #fff;
   font-size: 14px;
-  padding: 6px;
+  padding: 4px;
   resize: none;
   box-sizing: border-box;
 }
@@ -415,14 +432,16 @@ a.user-name :hover{
 }
 
 .navbar-nav>li> .dropdown-width{
-  margin-top: 4px;
+  margin-top: -1px;
   min-width: 400px;
+  margin-right: 3px;
   border-radius: 0;
 }
 
 .navbar-nav>li> .dropdown-logout{
-  margin-top: 4px;
+  margin-top: -1px;
   border-radius: 0;
+  margin-right: 4px;
 }
 
 .request-image{
@@ -535,10 +554,10 @@ a.user-name :hover{
 
 #divResults{
   position: absolute;
-  width: 390px;
+  /*width: 390px;*/
   margin-left: 14px;
   margin-top: -6px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   background-color: white;
   z-index: 500;
 }
@@ -586,8 +605,15 @@ a.user-name :hover{
   vertical-align: top;
 }
 
-.status-content{
+.message-content{
   vertical-align: top;
+  width: 100%;
+}
+
+.edit-post-heading{
+  width: 100%;
+  margin-bottom: 5px;
+  display: inline-flex;
 }
 
 .status-caret{
@@ -595,7 +621,7 @@ a.user-name :hover{
 }
 
 .status-btn-align{
-  text-align: right;
+  float: right;
 }
 .add-comment-btn-align{
   vertical-align: bottom;
@@ -605,6 +631,7 @@ a.user-name :hover{
 
 .add-comment-textarea-align{
   vertical-align: top;
+  width: 85%;
   padding-left: 10px;
 }
 
@@ -616,6 +643,7 @@ a.user-name :hover{
 .comment-content{
   vertical-align: top;
   padding-left: 10px;
+  width:100%;
 }
 
 .status-form-align{
@@ -649,7 +677,7 @@ a.user-name :hover{
 
 .ul-post-like-share > li >a{
   display: inline;
-  font-size: 12px;
+  font-size: 11px;
   text-decoration: none;
   color: #111 ;
 }

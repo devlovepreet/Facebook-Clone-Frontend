@@ -10,13 +10,11 @@ class Home extends Component {
 	}
 
   componentWillMount(){
-    console.log("Home Mounted")
     this.props.getCurrentUser()
   }
   render() {
 
     const {user } = this.props
-    console.log("Home Rendered")
     if(!user) {
       return (
         <div className="loader"></div>

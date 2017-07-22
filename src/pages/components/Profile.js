@@ -7,7 +7,7 @@ import { addNewPost } from '../../actions/posts'
 import Post from './Post'
 import $ from '../../jquery'
 import CoverImage from '../../cover.jpg'
-
+import {getInitials} from '../../Services'
 
 class Profile extends Component {
 
@@ -21,15 +21,6 @@ class Profile extends Component {
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this)
     this.handleSendMessageClick = this.handleSendMessageClick.bind(this)
     this.handleMessageTextOnChange = this.handleMessageTextOnChange.bind(this)
-  }
-
-  componentWillMount(){
-    console.log("Profile Mounted")
-    if(this.props.params.user_id){
-      if(this.props.params.user_id != this.props.currentUser.id){
-        this.props.getProfileResultsById(this.props.params.user_id)
-      }
-    }
   }
 
   handlePostSubmit(event) {
@@ -87,31 +78,19 @@ class Profile extends Component {
     this.props.getMessages(this.props.user.id)
   }
 
-  getInitials(string) {
-    var names = string.split(' '),
-      initials = names[0].substring(0, 1).toUpperCase();
-    
-    if (names.length > 1) {
-      initials += names[names.length - 1].substring(0, 1).toUpperCase()
-    }
-    return initials;
-  }
-
   render() {
-
-    console.log("Profile Rendered")
-  	const {error, user, fetching, fetched, posting , posted , currentUser, messages} = this.props
-    // let tempUser = this.props.params.user_id ? (this.props.params.user_id == this.props.currentUser.id ? currentUser : user ) : currentUser 
-
+  	const {error, user, fetching, fetched, posting , posted , currentUser, messages, getProfileResultsById} = this.props
     let tempUser = null
-    if(this.props.params.user_id){
-      if(this.props.params.user_id == this.props.currentUser.id){
-        tempUser = currentUser
-      }
-      else{
+    let profileId = this.props.params.user_id
+    profileId = parseInt(profileId)
+    if(profileId && profileId !== currentUser.id) {
+      if (user && user.id === profileId) {
         tempUser = user
+      } else if (!fetching) {
+        console.log("dhiraj", fetching)
+        getProfileResultsById(profileId)
       }
-    }else{
+    } else {
       tempUser = currentUser
     }
 
@@ -121,19 +100,10 @@ class Profile extends Component {
     	)
     }
 
-    let errorDiv = null
     let buttonDisabled = null
-    let successDiv = null
     if(posting) {
       buttonDisabled = "disabled"
     }
-    // if(!posting && posted) {
-    //   console.log(postError)
-    //   errorDiv = <div className="error-message-block">{postError}</div>
-    // } else if(!posting && posted){
-    //   console.log("Post Success");
-    //   successDiv = <div className="success-message-block">Post Added</div>
-    // }
 
     let buttons = null
     let status = null
@@ -142,30 +112,18 @@ class Profile extends Component {
       
       status = <div className="add-post">
           <form onSubmit={this.handlePostSubmit} className="status-form-align">
-            <table className="status-heading">
-              <tbody>
-                <tr>
-                  <td className="status-image-container">
-                    <div className="status-image"><p>{this.getInitials(tempUser.name)}</p></div>
-                  </td>
-                  <td id="status-td" className="status-title">
-                    <textarea className="form-control status-textarea" placeholder="What's on your mind ?" value={this.state.content} onChange={this.handlePostContentChange} ></textarea>
-                  </td>
-                </tr> 
-              </tbody>
-            </table>
-            <div className="row">
-              <div className="col-sm-offset-10 col-sm-2">
-                <div className="status-btn-align">
-                  <button type="submit" className={"btn btn-primary status-btn "+ buttonDisabled}>Post</button>
-                </div>
+            <div className="status-heading">
+              <div className="status-image-container">
+                <div className="status-image"><p>{getInitials(tempUser.name)}</p></div>
+              </div>
+              <div id="status-td" className="status-title">
+                <textarea className="form-control status-textarea" placeholder="What's on your mind ?" value={this.state.content} onChange={this.handlePostContentChange} ></textarea>
               </div>
             </div>
+            <div className="status-post">
+              <button type="submit" className={"btn btn-primary status-btn status-btn-align "+ buttonDisabled}>Post</button>
+            </div>
           </form>
-
-          {errorDiv}
-          {successDiv}
-             
         </div>
 
     }else{
@@ -177,7 +135,7 @@ class Profile extends Component {
               return (
                 <div key={message.id} className="row">
                   <div className="col-sm-1">
-                    <div className="comment-image"><p>{this.getInitials(tempUser.name)}</p></div>
+                    <div className="comment-image"><p>{getInitials(tempUser.name)}</p></div>
                   </div>
                   <div className="col-sm-11">
                     <p className="message-left">{message.content}</p>
@@ -220,8 +178,8 @@ class Profile extends Component {
       <div className="col-sm-offset-2 col-sm-8">
   			<div className="cover">
   				<img src={"/"+CoverImage} className="img-responsive center-block cover-width"/>
-  				<div className="profile-image prof-chars"><p>{this.getInitials(tempUser.name)}</p></div>
-  				<a href={"/user/"+tempUser.id}className="user-name">{ tempUser.name }</a>
+  				<div className="profile-image prof-chars"><p>{getInitials(tempUser.name)}</p></div>
+  				<span href={"/user/"+tempUser.id} className="user-name">{ tempUser.name }</span>
 	  			{buttons}
   			</div>
   			<div className="row">

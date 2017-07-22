@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router'
 import { connect } from 'react-redux'
 import { getSearchResults } from '../../actions/search'
 import { getRequests, confirmRequest, deleteRequest } from '../../actions/friendRequests'
 import { postLogout } from '../../actions/login'
 import facebookLiteLogo from '../../facebook-lite-logo.jpg'
+import {getInitials} from '../../Services'
 
 class Navbar extends Component {
 
@@ -39,42 +41,39 @@ class Navbar extends Component {
     postLogout()
   }
 
-  getInitials(string) {
-    var names = string.split(' '),
-      initials = names[0].substring(0, 1).toUpperCase();
-    
-    if (names.length > 1) {
-      initials += names[names.length - 1].substring(0, 1).toUpperCase()
-    }
-  return initials;
-  }
-  
   render() {
-
-    console.log("Navbar Rendered")
     const {results, requests, username} = this.props
 
     const allSearchResults = results.map(user =>
       <div key={user.id}>
         <hr className="hr-style"/>
-        <div className="row">
-          <div className="col-sm-12">
-            <a className="request-link" href={"/user/" + user.id}>
-              <div className="request-image"><p>{this.getInitials(user.name)}</p></div>
-              <div className="request-username">{user.name}</div>
-            </a>
-          </div>
-        </div>
+        <Link className="request-link" to={"/user/" + user.id}>
+          <div className="request-image"><p>{getInitials(user.name)}</p></div>
+          <div className="request-username">{user.name}</div>
+        </Link>
       </div>
     )
+
+    let friendRequestText = null
+    if(requests.length > 0){
+      friendRequestText =  <div className="friend-request-text">
+          Friend Requests
+        </div>
+    }else{
+      friendRequestText =  <div className="friend-request-text">
+          No Friend Requests
+        </div>
+    }
 
     const allRequestsResults = requests.map(request =>
       <div key={request.id}>
         <div role="separator" className="divider"></div>
           <div className="row">
             <div className="col-sm-6">
-              <div className="request-image"><p>{this.getInitials(request.name)}</p></div>
-              <div className="request-username">{request.name}</div>
+              <Link className="request-link" to={"/user/" + request.from_id}>
+                <div className="request-image"><p>{getInitials(request.name)}</p></div>
+                <div className="request-username">{request.name}</div>
+              </Link>
             </div>
             <div className="col-sm-6">
               <div className="request-buttons">
@@ -95,14 +94,12 @@ class Navbar extends Component {
 		        <input id="search-box" type="text" className="form-control form-specs" onChange={this.handleSearchTextChange} placeholder="Search Users here"/>       
 		      </div>
 		      <ul className="nav navbar-nav navbar-right">
-		        <li><a href="/user"><div className="nav-profile-image"><p>{this.getInitials(username)}</p></div>{username}</a></li>
-		        <li><a href="/user">Home</a></li>
+		        <li><Link to="/user"><div className="nav-profile-image"><p>{getInitials(username)}</p></div>{username}</Link></li>
+		        <li><Link to="/user">Home</Link></li>
             <li>
               <a href="#" id="navbar-caret" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-user-plus" aria-hidden="true"></i></a>
               <div className="dropdown-menu dropdown-width">
-                <div className="friend-request-text">
-                  Friend Requests
-                </div>
+                {friendRequestText}
                 {allRequestsResults}
               </div>
             </li>
@@ -115,7 +112,7 @@ class Navbar extends Component {
               </ul>
             </li>
 		      </ul>
-          <div id="divResults">
+          <div className="row results-box-left" id="divResults">
           {allSearchResults}
           </div>
 			  </div>

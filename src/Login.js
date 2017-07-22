@@ -15,7 +15,6 @@ class Login extends Component {
   }
 
   componentWillMount(){
-    console.log("Login Mounted")
     if(Cookie.get(access_token)){
       window.location = '/user'
     }
