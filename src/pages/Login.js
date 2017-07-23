@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { postLogin } from './actions/login'
+import { postLogin } from '../actions/login'
 import { Redirect, withRouter } from 'react-router'
 
 export const access_token = "access_token"

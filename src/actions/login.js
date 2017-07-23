@@ -8,7 +8,6 @@ export const LOGOUT_ERROR = 'LOGOUT_ERROR'
 
 import { validate } from "../reducers/login"
 import { createAction } from 'redux-actions'
-import $ from "../jquery"
 
 export const loginInit = createAction("LOGIN_INIT")
 export const loginDone  = createAction("LOGIN_DONE")
@@ -18,7 +17,7 @@ export const logoutInit = createAction("LOGOUT_INIT")
 export const logoutDone  = createAction("LOGOUT_DONE")
 export const logoutError = createAction("LOGOUT_ERROR")
 
-export const access_token = "access_token"
+import access_token from '../helpers/constants'
 import * as Cookie from "js-cookie"
 
 export const postLogin = (email, password) => {

@@ -4,13 +4,12 @@ export const PROFILE_FETCH_ERROR = 'PROFILE_FETCH_ERROR'
 
 import { profileFetch } from "../reducers/profileFetch"
 import { createAction } from 'redux-actions'
-import $ from "../jquery"
 
 export const profileFetchInit = createAction("PROFILE_FETCH_INIT")
 export const profileFetchDone  = createAction("PROFILE_FETCH_DONE")
 export const profileFetchError  = createAction("PROFILE_FETCH_ERROR")
 
-export const access_token = "access_token"
+import access_token from '../helpers/constants'
 import * as Cookie from "js-cookie"
 
 import {getCurrentUser} from '../actions/currentUser'

@@ -2,12 +2,11 @@ export const SEARCH_INIT = 'SEARCH_INIT'
 export const SEARCH_DONE = 'SEARCH_DONE'
 import { profileSearch } from "../reducers/search"
 import { createAction } from 'redux-actions'
-import $ from "../jquery"
 
 export const searchInit = createAction("SEARCH_INIT")
 export const searchDone  = createAction("SEARCH_DONE")
 
-export const access_token = "access_token"
+import access_token from '../helpers/constants'
 import * as Cookie from "js-cookie"
 
 export const getSearchResults = (name) => {

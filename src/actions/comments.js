@@ -10,7 +10,6 @@ export const DELETE_COMMENT_DONE = 'DELETE_COMMENT_DONE'
 import { addComment } from "../reducers/comments"
 import { createAction } from 'redux-actions'
 import { getProfileResultsById } from './profileFetch'
-import $ from "../jquery"
 
 export const addCommentInit = createAction("ADD_COMMENT_INIT")
 export const addCommentDone  = createAction("ADD_COMMENT_DONE")
@@ -21,7 +20,7 @@ export const updateCommentDone  = createAction("UPDATE_COMMENT_DONE")
 export const deleteCommentInit = createAction("DELETE_COMMENT_INIT")
 export const deleteCommentDone  = createAction("DELETE_COMMENT_DONE")
 
-export const access_token = "access_token"
+import access_token from '../helpers/constants'
 import * as Cookie from "js-cookie"
 
 export const addNewComment = (post_id,content,update_id) => {

@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions'
-import $ from "../jquery"
+
 import{ getProfileResultsById} from './profileFetch'
 
 export const GET_REQUESTS_INIT = 'GET_REQUESTS_INIT'
@@ -28,7 +28,7 @@ export const deleteRequestDone  = createAction("DELETE_REQUEST_DONE")
 export const sendRequestInit  = createAction("SEND_REQUEST_INIT")
 export const sendRequestDone  = createAction("SEND_REQUEST_DONE")
 
-export const access_token = "access_token"
+import access_token from '../helpers/constants'
 import * as Cookie from "js-cookie"
 
 export const getRequests = () => {

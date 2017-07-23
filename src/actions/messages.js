@@ -1,5 +1,4 @@
 import { createAction } from 'redux-actions'
-import $ from "../jquery"
 import { getProfileResultsById} from './profileFetch'
 
 export const GET_MESSAGES_INIT = 'GET_MESSAGES_INIT'
@@ -15,7 +14,7 @@ export const getMessagesDone  = createAction("GET_MESSAGES_DONE")
 export const sendMessageInit  = createAction("SEND_MESSAGE_INIT")
 export const sendMessageDone  = createAction("SEND_MESSAGE_DONE")
 
-export const access_token = "access_token"
+import access_token from '../helpers/constants'
 import * as Cookie from "js-cookie"
 
 export const getMessages = (to_user_id) => {

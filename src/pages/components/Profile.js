@@ -5,9 +5,8 @@ import { sendRequest, deleteRequest, deleteRequestByUserId } from '../../actions
 import { sendMessage, getMessages } from '../../actions/messages'
 import { addNewPost } from '../../actions/posts'
 import Post from './Post'
-import $ from '../../jquery'
-import CoverImage from '../../cover.jpg'
-import {getInitials} from '../../Services'
+import CoverImage from '../../assets/images/cover.jpg'
+import {getInitials} from '../../helpers/Services'
 
 class Profile extends Component {
 
