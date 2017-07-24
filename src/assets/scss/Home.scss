@@ -58,6 +58,16 @@ $background-color : #E9EBEE;
   background-color: white;
 }
 
+.divResults{
+  position: absolute;
+  width: 400px;
+  margin-left: 14px;
+  margin-top: -6px;
+  background-color: white;
+  z-index: 500;
+  left:-14px;
+}
+
 .titlebar-left {
   width: 45%;
   display: inline-flex;
@@ -204,15 +214,7 @@ $background-color : #E9EBEE;
   font-size: 12px;
 }
 
-#divResults{
-  position: absolute;
-  /*width: 390px;*/
-  margin-left: 14px;
-  margin-top: -6px;
-  /*overflow: hidden;*/
-  background-color: white;
-  z-index: 500;
-}
+
 
 /**
  * navbar ends

@@ -28,13 +28,9 @@ export const deleteRequestDone  = createAction("DELETE_REQUEST_DONE")
 export const sendRequestInit  = createAction("SEND_REQUEST_INIT")
 export const sendRequestDone  = createAction("SEND_REQUEST_DONE")
 
-import access_token from '../helpers/constants'
-import * as Cookie from "js-cookie"
-
 export const getRequests = () => {
   return dispatch => {
     dispatch(getRequestsInit())
-    console.log(Cookie.get(access_token))
     $.ajax({
     url:"http://localhost:8000/request",
     type:"GET",
@@ -49,11 +45,11 @@ export const getRequests = () => {
   }
 }
 
-export const confirmRequest = (id) => {
+export const confirmRequest = (from_user_id) => {
   return dispatch => {
     dispatch(confirmRequestInit())
     $.ajax({
-    url:"http://localhost:8000/request/"+id,
+    url:"http://localhost:8000/request/confirm/"+from_user_id,
     type:"POST",
     xhrFields: {
       withCredentials: true
@@ -67,11 +63,11 @@ export const confirmRequest = (id) => {
   }
 }
 
-export const deleteRequest = (id) => {
+export const deleteRequest = (from_user_id) => {
   return dispatch => {
     dispatch(deleteRequestInit())
     $.ajax({
-    url:"http://localhost:8000/request/delete/"+id,
+    url:"http://localhost:8000/request/reject/"+from_user_id,
     type:"POST",
     xhrFields: {
       withCredentials: true
@@ -104,15 +100,12 @@ export const deleteRequestByUserId = (to_user_id) => {
   }
 }
 
-
-
 export const sendRequest = (to_user_id) => {
   return (dispatch,getState) => {
     dispatch(sendRequestInit())
     $.ajax({
-    url:"http://localhost:8000/request",
+    url:"http://localhost:8000/request/" + to_user_id,
     type:"POST",
-    data: { to_user_id: to_user_id},
     xhrFields: {
       withCredentials: true
     },

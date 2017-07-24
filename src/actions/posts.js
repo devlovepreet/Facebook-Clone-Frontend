@@ -20,9 +20,6 @@ export const deletePostDone = createAction("DELETE_POST_DONE")
 export const updatePostInit = createAction("UPDATE_POST_INIT")
 export const updatePostDone = createAction("UPDATE_POST_DONE")
 
-import access_token from '../helpers/constants'
-import * as Cookie from "js-cookie"
-
 export const addNewPost = (content) => {
   return (dispatch,getState) => {
     let state = getState()

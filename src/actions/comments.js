@@ -20,18 +20,15 @@ export const updateCommentDone  = createAction("UPDATE_COMMENT_DONE")
 export const deleteCommentInit = createAction("DELETE_COMMENT_INIT")
 export const deleteCommentDone  = createAction("DELETE_COMMENT_DONE")
 
-import access_token from '../helpers/constants'
-import * as Cookie from "js-cookie"
-
 export const addNewComment = (post_id,content,update_id) => {
   return (dispatch,getState) => {
     // let state = getState()
     // let id = state.currentUser.user.id
     dispatch(addCommentInit())
     $.ajax({
-    url:"http://localhost:8000/comment",
+    url:"http://localhost:8000/"+ post_id +"/comment",
     type:"POST",
-    data: { 'post_id': post_id,content: content},
+    data: { content: content},
     xhrFields: {
       withCredentials: true
     },

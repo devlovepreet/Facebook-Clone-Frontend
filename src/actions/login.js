@@ -17,7 +17,7 @@ export const logoutInit = createAction("LOGOUT_INIT")
 export const logoutDone  = createAction("LOGOUT_DONE")
 export const logoutError = createAction("LOGOUT_ERROR")
 
-import access_token from '../helpers/constants'
+export const access_token_str = "access_token"
 import * as Cookie from "js-cookie"
 
 export const postLogin = (email, password) => {
@@ -30,7 +30,7 @@ export const postLogin = (email, password) => {
     data: { email: email, password: password},
     dataType:'json',
     success: function(result){
-      Cookie.set(access_token ,result.access_token)
+      Cookie.set(access_token_str ,result.access_token)
       dispatch(loginDone())
     },
     error: function (result) {
@@ -53,7 +53,7 @@ export const postLogout = () => {
       withCredentials: true 
     },
     success: function(result){
-      Cookie.remove(access_token)
+      Cookie.remove(access_token_str)
       dispatch(logoutDone())
       window.location = '/login'
     },

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { postLogin } from '../actions/login'
 import { Redirect, withRouter } from 'react-router'
 
-export const access_token = "access_token"
+export const access_token_str = "access_token"
 import * as Cookie from "js-cookie"
 class Login extends Component {
   constructor(props) {
@@ -15,7 +15,8 @@ class Login extends Component {
   }
 
   componentWillMount(){
-    if(Cookie.get(access_token)){
+    if(Cookie.get(access_token_str)){
+      console.log(Cookie.get(access_token_str))
       window.location = '/user'
     }
   }

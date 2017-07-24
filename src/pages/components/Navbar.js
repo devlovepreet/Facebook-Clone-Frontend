@@ -15,6 +15,7 @@ class Navbar extends Component {
     this.handleConfirmClick = this.handleConfirmClick.bind(this)
     this.handleDeleteClick= this.handleDeleteClick.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
+    this.handleSearchBlur =  this.handleSearchBlur.bind(this)
   }
 
   componentWillMount(){
@@ -28,12 +29,21 @@ class Navbar extends Component {
     getSearchResults(event.target.value)
   }
 
+  handleSearchBlur(event){
+    event.preventDefault()
+    console.log('Blur')
+    // $('#search-box').val('')
+    // this.props.getSearchResults('')
+  }
+
   handleConfirmClick(event){
-    this.props.confirmRequest(event.target.id)
+    let from_user_id = $(event.target).data('id')
+    this.props.confirmRequest(from_user_id)
   }
 
   handleDeleteClick(event){
-    this.props.deleteRequest(event.target.id)
+    let from_user_id = $(event.target).data('id')
+    this.props.deleteRequest(from_user_id)
   }
 
   handleLogoutClick(event){
@@ -42,17 +52,33 @@ class Navbar extends Component {
   }
 
   render() {
+    console.log("Profile")
     const {results, requests, username} = this.props
 
-    const allSearchResults = results.map(user =>
-      <div key={user.id}>
+    let searchResultsLis = null
+    searchResultsLis = results.map(user =>
+      <li key={user.id}>
         <hr className="hr-style"/>
-        <Link className="request-link" to={"/user/" + user.id}>
+        <Link to={"/user/" + user.id}>
           <div className="request-image"><p>{getInitials(user.name)}</p></div>
           <div className="request-username">{user.name}</div>
         </Link>
-      </div>
+      </li>
     )
+
+
+    let allSearchResults = null
+    console.log(searchResultsLis.length)
+    console.log(searchResultsLis)
+    if(searchResultsLis.length > 0){
+      console.log("allSearchResults : OK")
+      allSearchResults = <ul className="dropdown-menu divResults"  aria-labelledby="search-box">
+            {searchResultsLis}
+        </ul>
+    }else{
+      allSearchResults = null
+      console.log("allSearchResults : NULL")
+    }
 
     let friendRequestText = null
     if(requests.length > 0){
@@ -77,8 +103,8 @@ class Navbar extends Component {
             </div>
             <div className="col-sm-6">
               <div className="request-buttons">
-                <button className="btn btn-primary confirm-request-btn" id={request.id} onClick={this.handleConfirmClick}>Confirm</button>
-                <button className="btn btn-primary delete-request-btn" id={request.id} onClick={this.handleDeleteClick}>Delete Request</button>
+                <button className="btn btn-primary confirm-request-btn" data-id={request.from_id} onClick={this.handleConfirmClick}>Confirm</button>
+                <button className="btn btn-primary delete-request-btn" data-id={request.from_id} onClick={this.handleDeleteClick}>Delete Request</button>
               </div>
             </div>
           </div>
@@ -91,8 +117,11 @@ class Navbar extends Component {
 		  	<div className="col-md-offset-2 col-md-8">
 	      	<div className="row titlebar-left">
 		      	<img alt="logo" className="fb-lite-logo" src={"/"+facebookLiteLogo}/>
-		        <input id="search-box" type="text" className="form-control form-specs" onChange={this.handleSearchTextChange} placeholder="Search Users here"/>       
-		      </div>
+            <div className="dropdown">
+		          <input id="search-box" type="text" className="form-control form-specs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onChange={this.handleSearchTextChange} onBlur={this.handleSearchBlur} placeholder="Search Users here"/>       
+		          {allSearchResults}
+            </div>
+          </div>
 		      <ul className="nav navbar-nav navbar-right">
 		        <li><Link to="/user"><div className="nav-profile-image"><p>{getInitials(username)}</p></div>{username}</Link></li>
 		        <li><Link to="/user">Home</Link></li>
@@ -112,9 +141,7 @@ class Navbar extends Component {
               </ul>
             </li>
 		      </ul>
-          <div className="row results-box-left" id="divResults">
-          {allSearchResults}
-          </div>
+          
 			  </div>
 			</nav>
     );

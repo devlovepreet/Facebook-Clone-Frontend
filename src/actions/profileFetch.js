@@ -9,15 +9,11 @@ export const profileFetchInit = createAction("PROFILE_FETCH_INIT")
 export const profileFetchDone  = createAction("PROFILE_FETCH_DONE")
 export const profileFetchError  = createAction("PROFILE_FETCH_ERROR")
 
-import access_token from '../helpers/constants'
-import * as Cookie from "js-cookie"
-
 import {getCurrentUser} from '../actions/currentUser'
 
 export const getProfileResults = () => {
   return dispatch => {
     dispatch(profileFetchInit())
-    // console.log(Cookie.get(access_token))
     $.ajax({
     url:"http://localhost:8000/user",
     type:"GET",
@@ -48,7 +44,6 @@ export const getProfileResultsById = (id) => {
       return
     }
     dispatch(profileFetchInit())
-    console.log(Cookie.get(access_token))
     $.ajax({
     url:"http://localhost:8000/user/"+id,
     type:"GET",
