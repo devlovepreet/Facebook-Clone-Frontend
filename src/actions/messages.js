@@ -1,5 +1,4 @@
 import { createAction } from 'redux-actions'
-import $ from "../jquery"
 import { getProfileResultsById} from './profileFetch'
 
 export const GET_MESSAGES_INIT = 'GET_MESSAGES_INIT'
@@ -15,13 +14,9 @@ export const getMessagesDone  = createAction("GET_MESSAGES_DONE")
 export const sendMessageInit  = createAction("SEND_MESSAGE_INIT")
 export const sendMessageDone  = createAction("SEND_MESSAGE_DONE")
 
-export const access_token = "access_token"
-import * as Cookie from "js-cookie"
-
 export const getMessages = (to_user_id) => {
   return dispatch => {
     dispatch(getMessagesInit())
-    console.log(Cookie.get(access_token))
     $.ajax({
     url:"http://localhost:8000/message/"+to_user_id,
     type:"GET",
@@ -41,9 +36,9 @@ export const sendMessage = (to_user_id,content) => {
   return (dispatch,getState) => {
     dispatch(sendMessageInit())
     $.ajax({
-    url:"http://localhost:8000/message",
+    url:"http://localhost:8000/message/"+to_user_id,
     type:"POST",
-    data: { to_user_id: to_user_id, 'content': content},
+    data: {'content': content},
     xhrFields: {
       withCredentials: true
     },

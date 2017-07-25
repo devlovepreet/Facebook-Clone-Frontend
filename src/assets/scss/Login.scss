@@ -1,0 +1,73 @@
+$primaryColor: #3C559C;
+$primaryColorHover: #324781;
+$deleteRequestBtnColor: #F6F7F9;
+$deleteRequestBtnColorHover :#E8E9Ed;
+$background-color : #E9EBEE;
+
+.login-header{
+  background-color: $primaryColor;
+  width: 100%;
+  height: 80px;
+  margin: 0 auto;
+}
+
+.btn-success-align {
+  padding: 5px;
+}
+
+.title-bar {
+  margin-top: 20px;
+}
+
+.title-text {
+  color: white;
+  font-size: 30px;
+}
+
+.login-form-div{
+  background-color: #E9EBEE;
+  height: 500px;
+}
+
+.login-form{
+  background-color: white;
+  margin-top: 100px; 
+}
+
+.login-header-text{
+  text-align: center;
+  padding: 20px 0px;
+  font-size: 25px 
+}
+
+.btn-login{
+  background-image:linear-gradient(to bottom,$primaryColor 0,#265a88 100%);
+  background-color: $primaryColor;
+  padding: 10px;
+  border-radius: 0px;
+}
+
+.input-radius{
+  border-radius: 0px;
+}
+
+.forget-password{
+  font-size: 12px;
+  margin-top: 10px;
+  text-align: center;
+  padding-bottom: 20px;
+  pointer-events: none;
+  cursor: default;
+}
+
+.footer{
+  text-align: center;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.error-message-block{
+    margin: -10px 0 5px 0;
+    padding: 0 10px;
+    color: #f44336;
+}

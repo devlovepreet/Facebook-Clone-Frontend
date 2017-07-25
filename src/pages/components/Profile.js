@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getProfileResults, getProfileResultsById } from '../../actions/profileFetch'
-import { sendRequest, deleteRequest, deleteRequestByUserId } from '../../actions/friendRequests'
+import { sendRequest,confirmRequest, deleteRequest, deleteRequestByUserId } from '../../actions/friendRequests'
 import { sendMessage, getMessages } from '../../actions/messages'
 import { addNewPost } from '../../actions/posts'
 import Post from './Post'
-import $ from '../../jquery'
-import CoverImage from '../../cover.jpg'
-import {getInitials} from '../../Services'
+import CoverImage from '../../assets/images/cover.jpg'
+import {getInitials} from '../../helpers/Services'
 
 class Profile extends Component {
 
@@ -18,6 +17,7 @@ class Profile extends Component {
     this.handlePostContentChange = this.handlePostContentChange.bind(this)
     this.handleSendRequestClick = this.handleSendRequestClick.bind(this)
     this.handleCancelRequestClick = this.handleCancelRequestClick.bind(this)
+    this.handleConfirmRequestClick = this.handleConfirmRequestClick.bind(this)
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this)
     this.handleSendMessageClick = this.handleSendMessageClick.bind(this)
     this.handleMessageTextOnChange = this.handleMessageTextOnChange.bind(this)
@@ -54,6 +54,11 @@ class Profile extends Component {
     this.props.deleteRequestByUserId(this.props.user.id)
   }
 
+  handleConfirmRequestClick(event){
+    event.preventDefault()
+    this.props.confirmRequest(this.props.user.id)
+  }
+
   handleMessageTextOnChange(event){
     event.preventDefault()
     let elem = $('#message-div')
@@ -69,7 +74,7 @@ class Profile extends Component {
       this.setState({messageText:''})
 
       let elem = $('#message-div').children()
-      console.log(elem)
+      // console.log(elem)
       $(elem).height(16)
     }
   }
@@ -108,6 +113,9 @@ class Profile extends Component {
     let buttons = null
     let status = null
     let allMessages = null
+    let posts = null
+
+    let showPosts = false
     if(tempUser == currentUser){
       
       status = <div className="add-post">
@@ -125,6 +133,8 @@ class Profile extends Component {
             </div>
           </form>
         </div>
+
+      showPosts = true
 
     }else{
       if(tempUser.isFriends){
@@ -153,6 +163,8 @@ class Profile extends Component {
             }
           })
         }
+
+        showPosts = true
           
         buttons = <a type="button" className="btn btn-default btn-message" data-toggle="modal" data-target="#myModal" onClick={this.handleMessageButtonClick}>
             <i className="fa fa-envelope" aria-hidden="true"></i> Message
@@ -160,11 +172,15 @@ class Profile extends Component {
 
       }else{
 
-        if(tempUser.status == "pending"){
+        if(tempUser.status == "pending" && tempUser.from_user_id !== tempUser.id){
           buttons = <a type="button" className="btn btn-default btn-message" onClick={this.handleCancelRequestClick}>
               <i className="fa fa-user-times" aria-hidden="true"></i> Cancel Friend Request
             </a>
-        }else{
+        }else if(tempUser.status == "pending" && tempUser.from_user_id === tempUser.id){
+            buttons = <a type="button" className="btn btn-default btn-message" onClick={this.handleConfirmRequestClick}>
+              <i className="fa fa-user-plus" aria-hidden="true" ></i> Confirm Friend Request
+            </a>
+        }else {
           buttons = <a type="button" className="btn btn-default btn-message" onClick={this.handleSendRequestClick}>
               <i className="fa fa-user-plus" aria-hidden="true"></i> Send Friend Request
             </a>
@@ -173,6 +189,18 @@ class Profile extends Component {
       }
     }
 
+    if(showPosts){
+      posts =  tempUser.posts.map(post =>
+          <Post
+          key={post.id}
+          {...post}
+          name={tempUser.name}
+          post_id={post.id}
+          currentUser = {currentUser}
+          tempUser={tempUser}
+        />) 
+
+    }
 
     return (
       <div className="col-sm-offset-2 col-sm-8">
@@ -190,16 +218,7 @@ class Profile extends Component {
   				</div>
   				<div className="col-sm-8">
       				{status}
-    					{ tempUser.posts.map(post =>
-      		      	<Post
-      		        key={post.id}
-      		        {...post}
-      		        name={tempUser.name}
-                  post_id={post.id}
-                  currentUser = {currentUser}
-                  tempUser={tempUser}
-    		        />) 
-    				  }
+              {posts}
       		</div>	
         </div>
         <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -234,7 +253,6 @@ class Profile extends Component {
   }
 }
 
-
 const mapStateToProps = state => ({
   fetching : state.profileFetch.fetching,
   fetched : state.profileFetch.fetched,
@@ -246,7 +264,7 @@ const mapStateToProps = state => ({
   messages: state.messages.results
 })
 
-const mapDispatchToProps = { getProfileResults , getProfileResultsById, addNewPost,sendRequest, deleteRequest, deleteRequestByUserId, sendMessage, getMessages} 
+const mapDispatchToProps = { getProfileResults , getProfileResultsById, addNewPost,sendRequest, confirmRequest, deleteRequest, deleteRequestByUserId, sendMessage, getMessages} 
 
 Profile = connect(
   mapStateToProps,

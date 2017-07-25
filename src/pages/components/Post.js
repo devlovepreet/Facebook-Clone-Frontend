@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import { connect } from 'react-redux'
 import { addNewComment, updateComment, deleteComment } from '../../actions/comments'
 import { updatePost, deletePost } from '../../actions/posts'
-import { getInitials } from '../../Services'
+import { getInitials } from '../../helpers/Services'
 
 class Post extends Component {
 	constructor(props) {
@@ -96,7 +96,7 @@ class Post extends Component {
 
   		deletable = true;
 
-	  	editDeletePost = <div className="status-caret pull-right">
+	  	editDeletePost = <div className="post-caret pull-right">
 					<div className="dropdown">
 	          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-caret-down" aria-hidden="true"></i></a>
 	          <ul className="dropdown-menu pull-right dropdown-menu-post">
@@ -200,7 +200,7 @@ class Post extends Component {
 										<div className="edit-post-image-container">
 				  						<div className="comment-image"><p>{getInitials(currentUser.name)}</p></div>
 				  					</div>
-				  					<div className="message-content auto-text-area">
+				  					<div className="edit-post-content auto-text-area">
 											<textarea className="edit-post-textarea" rows="4" value={this.state.updatePostContent} onChange={this.handleUpdatePostContentChange} placeholder="Write a post"></textarea>
 				  					</div>
 					  			</div>

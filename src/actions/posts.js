@@ -10,7 +10,6 @@ export const UPDATE_POST_DONE = 'UPDATE_POST_DONE'
 import { posts } from "../reducers/posts"
 import { createAction } from 'redux-actions'
 import { getProfileResultsById } from './profileFetch'
-import $ from "../jquery"
 
 export const addPostInit = createAction("ADD_POST_INIT")
 export const addPostDone  = createAction("ADD_POST_DONE")
@@ -20,9 +19,6 @@ export const deletePostDone = createAction("DELETE_POST_DONE")
 
 export const updatePostInit = createAction("UPDATE_POST_INIT")
 export const updatePostDone = createAction("UPDATE_POST_DONE")
-
-export const access_token = "access_token"
-import * as Cookie from "js-cookie"
 
 export const addNewPost = (content) => {
   return (dispatch,getState) => {

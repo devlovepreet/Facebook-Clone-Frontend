@@ -1,13 +1,12 @@
 $primaryColor: #3C559C;
 $primaryColorHover: #324781;
-$deleteRequestBtnColor: #f6f7f9;
-$deleteRequestBtnColorHover:#e8e9ed;
+$deleteRequestBtnColor: #F6F7F9;
+$deleteRequestBtnColorHover :#E8E9Ed;
+$background-color : #E9EBEE;
 
-body{
-  background-color: #E9EBEE;
-  margin: 0;
-  padding: 0;
-}
+/**
+ * Loader starts
+ */
 .loader {
   position: fixed;
   top:50%;
@@ -30,77 +29,14 @@ body{
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-.login-header{
-  background-color: $primaryColor;
-  width: 100%;
-  height: 80px;
-  margin: 0 auto;
-}
 
-.facebook-logo{
-  padding:24px 0px 0px 220px ;
-}
+/**
+ * Loader ends
+ */
 
-.btn-success-align {
-  padding: 5px;
-}
-
-.title-bar {
-  margin-top: 20px;
-}
-
-.title-text {
-  color: white;
-  font-size: 30px;
-}
-
-.login-form-div{
-  background-color: #E9EBEE;
-  height: 500px;
-}
-
-.login-form{
-  background-color: white;
-  margin-top: 100px; 
-}
-
-.login-header-text{
-  text-align: center;
-  padding: 20px 0px;
-  font-size: 25px 
-}
-
-.btn-login{
-  background-image:linear-gradient(to bottom,$primaryColor 0,#265a88 100%);
-  background-color: $primaryColor;
-  padding: 10px;
-  border-radius: 0px;
-}
-
-.input-radius{
-  border-radius: 0px;
-}
-
-.forget-password{
-  font-size: 12px;
-  margin-top: 10px;
-  text-align: center;
-  padding-bottom: 20px;
-  pointer-events: none;
-  cursor: default;
-}
-
-.footer{
-  text-align: center;
-  font-size: 15px;
-  margin-top: 10px;
-}
-
-.error-message-block{
-    margin: -10px 0 5px 0;
-    padding: 0 10px;
-    color: #f44336;
-}
+/**
+ * Navbar starts
+ */
 
 .fb-lite-logo{
   width: 20px;
@@ -122,6 +58,16 @@ body{
   background-color: white;
 }
 
+.divResults{
+  position: absolute;
+  width: 400px;
+  margin-left: 14px;
+  margin-top: -6px;
+  background-color: white;
+  z-index: 500;
+  left:-14px;
+}
+
 .titlebar-left {
   width: 45%;
   display: inline-flex;
@@ -139,7 +85,6 @@ body{
   min-height: 40px;
 }
 
-/* Link */
 .navbar-blue .navbar-nav > li > a {
   font-size: 11px;
   color: #FFF;
@@ -166,11 +111,6 @@ body{
   background-color: $primaryColorHover;
 }
 
-/*.navbar-blue .navbar-nav > .dropdown > a .caret {
-  border-top-color: #777;
-  border-bottom-color: #777;
-}
-*/
 #navbar-caret{
   padding: 10px 10px 9px 10px;
 }
@@ -180,35 +120,6 @@ body{
   width:400px; 
   height: 25px;
   margin: 7px 0px;
-}
-
-.cover{
-  position: relative;
-  z-index: 0;
-  margin-bottom: 40px;
-}
-
-.cover-width{
-  width: 100%;
-}
-
-.profile-image{
-  width:160px;
-  height:160px;
-  position: absolute;
-  left : 30px;
-  bottom : -20px;
-  z-index: 100;
-  border: solid 3px white;
-  background-color: orange;
-  outline: solid 1px #222; 
-}
-
-.profile-image > p{
-  color : white;
-  font-size: 50px;
-  line-height: 3;
-  text-align: center;
 }
 
 .nav-profile-image{
@@ -227,210 +138,6 @@ body{
   text-align: center;
 }
 
-
-.btn-message{
-  position: absolute;
-  right : 20px;
-  bottom: 20px;
-  z-index: 200;
-  border-radius:0;
-  padding: 5px 10px;
-}
-
-span.user-name{
-  position: absolute;
-  left:200px;
-  bottom:20px;
-  color: #FFF;
-  font-size: 1.4em;
-  font-style: normal;
-}
-
-.cover-links{
-  background-color: #FFF;
-}
-
-.main-area{
-  background-color: #FFF;
-  margin: 40px 20px 20px 10px;
-  padding: 10px;
-}
-
-.sidebar{
-  background-color: #FFF;
-  height: 500px;
-  padding: 10px;
-}
-
-.add-post{
-  background-color: #FFF;
-  padding: 15px;
-  margin: 0px 0px 20px 0px;
-}
-
-.posts-area{
-  background-color: #FFF;
-  padding: 15px 15px 0px;
-}
-
-.post-textarea{
-  width: 100%;
-  height: 150px;
-  padding: 5px 5px;
-  border-radius: 0;
-  background-color: #f8f8f8;
-  resize:none;
-}
-
-.post-image{
-  width: 40px;
-  height: 40px;
-}
-
-.post-date{
-  font-size: 12px;
-}
-
-.post-username{
-  font-size: 16px;
-  color: $primaryColor;
-}
-
-.post-image-container{
-  vertical-align: top;
-}
-
-.post-heading{
-  width: 100%;
-  display: inline-flex;
-}
-
-.post-content{
-  padding-top: 10px;
-}
-
-.post-name-time{
-  vertical-align: top;
-  width: 100%;
-  padding-left: 10px;
-}
-.status-btn{
-  margin-top:10px;
-  border-radius: 0px;
-  padding: 4px 16px;
-  background-image:linear-gradient(to bottom,$primaryColor 0,#265a88 100%);
-  background-color: $primaryColor;
-}
-
-.status-image-container{
-  width:10%;
-  vertical-align: top;
-}
-
-.status-heading{
-  width: 100%;
-  height: inherit;
-  display: inline-flex;
-}
-
-.status-post {
-  width: 100%;
-  display: inline-block;
-}
-
-.status-image{
-  position: relative;
-  width:40px;
-  height:40px;
-  background-color: orange;
-  outline: solid 1px #000; 
-}
-
-.status-image > p{
-  color : white;
-  font-size: 16px;
-  line-height: 2.5;
-  text-align: center;
-}
-
-#status-td {
-  width: 100%;
-}
-
-#status-td > .status-textarea{
-  width: 100%;
-  padding: 5px 5px;
-  border-radius: 0;
-  background-color: #f8f8f8;
-  resize:none;
-  border:none;
-  box-shadow: none;
-  height: 40px;
-}
-
-.comments-area{
-  background-color: #F6F7F9;
-  padding: 10px 15px 5px 15px;
-  margin: 0px 0px 10px 0px; 
-}
-
-.comment-image{
-  position: relative;
-  width:30px;
-  height:30px;
-  background-color: orange;
-  outline: solid 1px #000; 
-}
-
-.comment-image > p{
-  color : white;
-  font-size: 12px;
-  text-align: center;
-  line-height: 2.5;
-}
-
-.comment-username{
-  font-size: 13px;
-  color: $primaryColor;
-}
-
-.comment{
-  font-size: 12px;
-  padding-top: 4px;
-  display: inline;
-  margin-left: 5px;
-}
-
-.comment-heading{
-  width: 100%;
-  margin-bottom: 5px;
-  display: inline-flex;
-}
-
-.add-comment-wrapper{
-  width: 100%;
-  display: inline-flex;
-}
-
-.comment-textarea{
-  width: 100%;
-  border-radius: 0;
-  background-color: #fff;
-  font-size: 14px;
-  padding: 4px;
-  resize: none;
-  box-sizing: border-box;
-}
-
-
-.comment-btn{
-  border-radius: 0px;
-  padding: 7px 15px;
-  font-size: 10px;
-  background-image:linear-gradient(to bottom,$primaryColor 0,#265a88 100%);
-  background-color: $primaryColor;
-}
-
 .navbar-nav>li> .dropdown-width{
   margin-top: -1px;
   min-width: 400px;
@@ -443,6 +150,7 @@ span.user-name{
   border-radius: 0;
   margin-right: 4px;
 }
+
 
 .request-image{
  position: relative;
@@ -506,6 +214,388 @@ span.user-name{
   font-size: 12px;
 }
 
+
+
+/**
+ * navbar ends
+ */
+
+
+/**
+ * Cover starts
+ */
+.cover{
+  position: relative;
+  z-index: 0;
+  margin-bottom: 40px;
+}
+
+.cover-width{
+  width: 100%;
+}
+
+.profile-image{
+  width:160px;
+  height:160px;
+  position: absolute;
+  left : 30px;
+  bottom : -20px;
+  z-index: 100;
+  border: solid 3px white;
+  background-color: orange;
+  outline: solid 1px #222; 
+}
+
+.profile-image > p{
+  color : white;
+  font-size: 50px;
+  line-height: 3;
+  text-align: center;
+}
+
+.btn-message{
+  position: absolute;
+  right : 20px;
+  bottom: 20px;
+  z-index: 200;
+  border-radius:0;
+  padding: 5px 10px;
+}
+
+span.user-name{
+  position: absolute;
+  left:200px;
+  bottom:20px;
+  color: #FFF;
+  font-size: 1.4em;
+  font-style: normal;
+}
+
+/**
+ * Cover ends
+ */
+
+
+
+/** 
+ * Layout starts
+ */
+.main-area{
+  background-color: #FFF;
+  margin: 40px 20px 20px 10px;
+  padding: 10px;
+}
+
+.sidebar{
+  background-color: #FFF;
+  height: 500px;
+  padding: 10px;
+}
+
+/**
+ * Layout ends
+ */
+
+
+/**
+ * Status starts
+ */
+
+.add-post{
+  background-color: #FFF;
+  padding: 15px;
+  margin: 0px 0px 20px 0px;
+}
+
+.status-btn{
+  margin-top:10px;
+  border-radius: 0px;
+  padding: 4px 16px;
+  background-image:linear-gradient(to bottom,$primaryColor 0,#265a88 100%);
+  background-color: $primaryColor;
+}
+
+.status-image-container{
+  width:10%;
+  vertical-align: top;
+}
+
+.status-heading{
+  width: 100%;
+  height: inherit;
+  display: inline-flex;
+}
+
+.status-post {
+  width: 100%;
+  display: inline-block;
+}
+
+.status-image{
+  position: relative;
+  width:40px;
+  height:40px;
+  background-color: orange;
+  outline: solid 1px #000; 
+}
+
+.status-image > p{
+  color : white;
+  font-size: 16px;
+  line-height: 2.5;
+  text-align: center;
+}
+
+#status-td {
+  width: 100%;
+}
+
+#status-td > .status-textarea{
+  width: 100%;
+  padding: 5px 5px;
+  border-radius: 0;
+  background-color: #f8f8f8;
+  resize:none;
+  border:none;
+  box-shadow: none;
+  height: 40px;
+}
+
+.status-form-align{
+  margin-bottom: 0;
+}
+
+.status-btn-align{
+  float: right;
+}
+
+/**
+ * Status ends
+ */
+
+
+/** 
+ * Post start
+ */
+.posts-area{
+  background-color: #FFF;
+  padding: 15px 15px 0px;
+}
+
+.post-textarea{
+  width: 100%;
+  height: 150px;
+  padding: 5px 5px;
+  border-radius: 0;
+  background-color: #f8f8f8;
+  resize:none;
+}
+
+.post-image{
+  width: 40px;
+  height: 40px;
+}
+
+.post-date{
+  font-size: 12px;
+}
+
+.post-username{
+  font-size: 16px;
+  color: $primaryColor;
+}
+
+.post-image-container{
+  vertical-align: top;
+}
+
+.post-heading{
+  width: 100%;
+  display: inline-flex;
+}
+
+.post-content{
+  padding-top: 10px;
+}
+
+.post-name-time{
+  vertical-align: top;
+  width: 100%;
+  padding-left: 10px;
+}
+
+.post-caret{
+  vertical-align: top;
+}
+
+.ul-post-like-share{
+  list-style-type: none;
+  margin: 0;
+  padding: 5px 0px;
+}
+
+.ul-post-like-share > li{
+  display: inline;
+  font-size: 14px;
+  padding-right: 20px;
+}
+
+.ul-post-like-share > li >a{
+  display: inline;
+  font-size: 11px;
+  text-decoration: none;
+  color: #111 ;
+}
+
+.ul-post-like-share > li > .fa{
+  padding-right:4px; 
+}
+
+.post-like-share{
+  border-top: solid 1px #ddd;
+  margin-top: 5px;
+}
+
+.dropdown-menu-post{
+  min-width: 100px;
+  font-size: 12;
+  border-radius: 0;
+}
+
+/**
+ * Post ends
+ */
+
+/**
+ * Comment starts
+ */
+.comments-area{
+  background-color: #F6F7F9;
+  padding: 10px 15px 5px 15px;
+  margin: 0px 0px 10px 0px; 
+}
+
+.comment-image{
+  position: relative;
+  width:30px;
+  height:30px;
+  background-color: orange;
+  outline: solid 1px #000; 
+}
+
+.comment-image > p{
+  color : white;
+  font-size: 12px;
+  text-align: center;
+  line-height: 2.5;
+}
+
+.comment-username{
+  font-size: 13px;
+  color: $primaryColor;
+}
+
+.comment{
+  font-size: 12px;
+  padding-top: 4px;
+  display: inline;
+  margin-left: 5px;
+}
+
+.comment-heading{
+  width: 100%;
+  margin-bottom: 5px;
+  display: inline-flex;
+}
+
+.add-comment-wrapper{
+  width: 100%;
+  display: inline-flex;
+}
+
+.comment-textarea{
+  width: 100%;
+  border-radius: 0;
+  background-color: #fff;
+  font-size: 14px;
+  padding: 4px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.comment-btn{
+  border-radius: 0px;
+  padding: 7px 15px;
+  font-size: 10px;
+  background-image:linear-gradient(to bottom,$primaryColor 0,#265a88 100%);
+  background-color: $primaryColor;
+}
+
+.hr-style{
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.dropdown-menu-comment{
+  min-width: 100px;
+  font-size: 12;
+  border-radius: 0;
+}
+
+.add-comment-btn-align{
+  vertical-align: bottom;
+  text-align: right;
+  width:15%;
+}
+
+.add-comment-textarea-align{
+  vertical-align: top;
+  width: 85%;
+  padding-left: 10px;
+}
+
+.comment-image-container{
+  width:30px;
+  vertical-align: top;
+}
+
+.comment-content{
+  vertical-align: top;
+  padding-left: 10px;
+  width:100%;
+}
+
+.ul-comment-like-share{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ul-comment-like-share > li{
+  display: inline;
+  font-size: 12px;
+  padding-right: 5px;
+}
+
+/** 
+ * Comment ends
+ */
+
+/** 
+ * Message modal starts
+ */
+.message-btn-align{
+  vertical-align:top;
+  text-align:right;
+  width:50px;
+  float: right;
+}
+
+.message-textarea-align{
+  vertical-align: top;
+  padding-left: 10px;
+}
+
 .message-textarea{
   width: 100%;
   border-radius: 0;
@@ -552,39 +642,14 @@ span.user-name{
   background-color: #f0f0f0;
 }
 
-#divResults{
-  position: absolute;
-  /*width: 390px;*/
-  margin-left: 14px;
-  margin-top: -6px;
-  /*overflow: hidden;*/
-  background-color: white;
-  z-index: 500;
-}
+/**
+ * Message modal ends
+ */
 
-.hr-style{
-  margin-top: 0px;
-  margin-bottom: 5px;
-}
 
-.dropdown-menu-post{
-  min-width: 100px;
-  font-size: 12;
-  border-radius: 0;
-}
-
-.dropdown-menu-comment{
-  min-width: 100px;
-  font-size: 12;
-  border-radius: 0;
-}
-
-.dropdown-caret-post{
-}
-
-.edit-modal-body-style{
- 
-}
+/** 
+ * Edit post modal starts
+ */
 
 .edit-post-textarea{
   width: 100%;
@@ -605,7 +670,7 @@ span.user-name{
   vertical-align: top;
 }
 
-.message-content{
+.edit-post-content{
   vertical-align: top;
   width: 100%;
 }
@@ -616,98 +681,6 @@ span.user-name{
   display: inline-flex;
 }
 
-.status-caret{
-  vertical-align: top;
-}
-
-.status-btn-align{
-  float: right;
-}
-.add-comment-btn-align{
-  vertical-align: bottom;
-  text-align: right;
-  width:15%;
-}
-
-.add-comment-textarea-align{
-  vertical-align: top;
-  width: 85%;
-  padding-left: 10px;
-}
-
-.comment-image-container{
-  width:30px;
-  vertical-align: top;
-}
-
-.comment-content{
-  vertical-align: top;
-  padding-left: 10px;
-  width:100%;
-}
-
-.status-form-align{
-  margin-bottom: 0;
-}
-
-
-.ul-comment-like-share{
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.ul-comment-like-share > li{
-  display: inline;
-  font-size: 12px;
-  padding-right: 5px;
-}
-
-.ul-post-like-share{
-  list-style-type: none;
-  margin: 0;
-  padding: 5px 0px;
-}
-
-.ul-post-like-share > li{
-  display: inline;
-  font-size: 14px;
-  padding-right: 20px;
-}
-
-.ul-post-like-share > li >a{
-  display: inline;
-  font-size: 11px;
-  text-decoration: none;
-  color: #111 ;
-}
-
-.ul-post-like-share > li > .fa{
-  padding-right:4px; 
-}
-
-.post-like-share{
-  border-top: solid 1px #ddd;
-  margin-top: 5px;
-}
-
-.message-btn-align{
-  vertical-align:top;
-  text-align:right;
-  width:50px;
-  float: right;
-}
-
-.message-textarea-align{
-  vertical-align: top;
-  padding-left: 10px;
-}
-
-
-
-
-
-
-
-
-
+/**
+ * Edit post modal ends
+ */

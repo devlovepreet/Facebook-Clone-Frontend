@@ -35,7 +35,6 @@ const extractSass = new ExtractTextPlugin({
                 }, {
                     loader: "sass-loader"
                 }],
-                // use style-loader in development
                 fallback: "style-loader"
             })
         },
