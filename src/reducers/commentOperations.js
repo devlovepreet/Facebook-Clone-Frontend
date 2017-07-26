@@ -1,4 +1,4 @@
-import { ADD_COMMENT_INIT, ADD_COMMENT_DONE, UPDATE_COMMENT_INIT, UPDATE_COMMENT_DONE, DELETE_COMMENT_INIT, DELETE_COMMENT_DONE } from '../actions/comments.js'
+import { ADD_COMMENT_INIT, ADD_COMMENT_DONE, UPDATE_COMMENT_INIT, UPDATE_COMMENT_DONE, DELETE_COMMENT_INIT, DELETE_COMMENT_DONE } from '../actions/commentOperations.js'
 
 const initialState = {
   fetching:false,
@@ -7,7 +7,7 @@ const initialState = {
   error :null
 }
 
-const comments = (state = initialState, action) => {
+const commentOperations = (state = initialState, action) => {
   switch (action.type) {
     case ADD_COMMENT_INIT:
       return Object.assign({}, state, {
@@ -44,4 +44,4 @@ const comments = (state = initialState, action) => {
   }
 }
 
-export default comments
+export default commentOperations

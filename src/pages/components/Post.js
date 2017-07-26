@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router'
 import { connect } from 'react-redux'
-import { addNewComment, updateComment, deleteComment } from '../../actions/comments'
-import { updatePost, deletePost } from '../../actions/posts'
+import { addNewComment, updateComment, deleteComment } from '../../actions/commentOperations'
+import { updatePost, deletePost } from '../../actions/postOperations'
 import { getInitials } from '../../helpers/Services'
 
 class Post extends Component {
@@ -18,25 +18,29 @@ class Post extends Component {
     this.handleDeleteCommentSubmit = this.handleDeleteCommentSubmit.bind(this)
   }
 
+  componentDidUpdate() {
+  	console.log("Post ",this.props.postId," Rendered")
+  }
+
   handleCommentSubmit(event) {
-    const {addNewComment ,commentError,currentUser, tempUser, id} = this.props
+    const {addNewComment ,commentError,currentUser, tempUser, postId} = this.props
     event.preventDefault()
-    let elem = $('#add-comment-'+id).children()
+    let elem = $('#add-comment-'+postId).children()
   	$(elem).height(16)
   	if(this.state.text){
   		if(currentUser == tempUser){
-    		addNewComment(this.props.post_id,this.state.text,currentUser.id)
+    		addNewComment(postId,this.state.text,currentUser.id)
 	    }else{
-	    	addNewComment(this.props.post_id,this.state.text,tempUser.id)
+	    	addNewComment(postId,this.state.text,tempUser.id)
 	    }
 	    this.setState({text: ''})
   	}
   }
 
   handleCommentContentChange(event){
-  	const {id} = this.props
+  	const {postId} = this.props
     event.preventDefault()
-    let elem = $('#add-comment-'+id)
+    let elem = $('#add-comment-'+postId)
     let textArea = elem.children()
     textArea = textArea[0]
     $(textArea).height(0).height(textArea.scrollHeight)
@@ -49,16 +53,15 @@ class Post extends Component {
   }
 
   handleUpdatePostSubmit(event){
-  	console.log("Post submit")
   	if(this.state.updatePostContent){
-  		this.props.updatePost(this.props.id, this.state.updatePostContent)
-  		$('#modal-'+this.props.id).modal('hide')
+  		this.props.updatePost(this.props.postId, this.state.updatePostContent)
+  		$('#modal-'+this.props.postId).modal('hide')
   	}
   }
 
   handleDeletePostSubmit(event){
   	event.preventDefault()
-  	this.props.deletePost(this.props.id)
+  	this.props.deletePost(this.props.postId)
   }
 
   handleUpdateCommentSubmit(event){
@@ -87,66 +90,111 @@ class Post extends Component {
 
 
   render() {
+  	const {name,currentUser, tempUser,postId,post,otherUserPost} = this.props
 
-  	const {id, name, updated_at, content , comments, currentUser, tempUser} = this.props
   	let editDeletePost = null
-  	let deletable = false;
+  	let deletable = false
+  	let updated_at= null 
+  	let content = null
+
+  	let tempPost = null
 		
   	if(tempUser == currentUser){
 
-  		deletable = true;
+  		deletable = true
+  		tempPost = post
 
 	  	editDeletePost = <div className="post-caret pull-right">
 					<div className="dropdown">
 	          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-caret-down" aria-hidden="true"></i></a>
 	          <ul className="dropdown-menu pull-right dropdown-menu-post">
-	            <li><a data-toggle="modal" data-target={"#modal-"+id}>Edit Post</a></li>
+	            <li><a data-toggle="modal" data-target={"#modal-"+postId}>Edit Post</a></li>
 	            <li><a onClick={this.handleDeletePostSubmit}>Delete</a></li>
 	          </ul>
 	        </div>
 				</div>
   	}
+  	else{
+  		tempPost = otherUserPost
+  	}
 
-		let allComments = comments.map(comment => {
-			let editComment = null
-			if(comment.isEditable){
-				editComment = <li><a data-toggle="modal" data-target={"#comment-modal-"+comment.id}>Edit</a></li>
-			}
+  	let allComments = null
+  	let allCommentsModals = null
+  	if(tempPost){
+  		updated_at = tempPost.updated_at
+  		content = tempPost.content
+  		allComments = tempPost.comments.map(comment => {
+				let editComment = null
+				if(comment.isEditable){
+					editComment = <li><a data-toggle="modal" data-target={"#comment-modal-"+comment.id}>Edit</a></li>
+				}
 
-			let deleteComment = <li><a data-id={comment.id} onClick={this.handleDeleteCommentSubmit}>Delete</a></li>
-			let editDeleteCommentBlock = null
-			
-			if(comment.isEditable || deletable){
-				editDeleteCommentBlock = <div className="edit-comment-caret pull-right">
-						<div className="dropdown">
-		          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-caret-down" aria-hidden="true"></i></a>
-		          <ul className="dropdown-menu pull-right dropdown-menu-comment">
-		            {editComment}
-		            {deleteComment}
-		          </ul>
-	          </div>
+				let deleteComment = <li><a data-id={comment.id} onClick={this.handleDeleteCommentSubmit}>Delete</a></li>
+				let editDeleteCommentBlock = null
+				
+				if(comment.isEditable || deletable){
+					editDeleteCommentBlock = <div className="edit-comment-caret pull-right">
+							<div className="dropdown">
+			          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-caret-down" aria-hidden="true"></i></a>
+			          <ul className="dropdown-menu pull-right dropdown-menu-comment">
+			            {editComment}
+			            {deleteComment}
+			          </ul>
+		          </div>
+						</div>
+				}
+				
+				return (
+					<div key={comment.id} className="comment-heading">
+						<div className="comment-image-container">
+							<div className="comment-image"><p>{getInitials(comment.name)}</p></div>
+						</div>
+						<div className="comment-content">
+							<Link to={"/user/"+comment.user_id} className="comment-username">{comment.name}</Link>
+							<div className="comment">{comment.content}</div>
+							<ul className="ul-comment-like-share">
+								<li><a href='javascript:void(0);'>Like</a></li>
+								<li><a href='javascript:void(0);'>Reply</a></li>
+								<li>{comment.updated_at}</li>
+							</ul>
+						</div>
+						{editDeleteCommentBlock}
 					</div>
-			}
-			
-			return (
-				<div key={comment.id} className="comment-heading">
-					<div className="comment-image-container">
-						<div className="comment-image"><p>{getInitials(comment.name)}</p></div>
-					</div>
-					<div className="comment-content">
-						<Link to={"/user/"+comment.user_id} className="comment-username">{comment.name}</Link>
-						<div className="comment">{comment.content}</div>
-						<ul className="ul-comment-like-share">
-							<li><a href='javascript:void(0);'>Like</a></li>
-							<li><a href='javascript:void(0);'>Reply</a></li>
-							<li>{comment.updated_at}</li>
-						</ul>
-					</div>
-					{editDeleteCommentBlock}
-				</div>
+				)
+	  		}
 			)
-  		}
-		)
+
+			allCommentsModals = tempPost.comments.map(comment =>
+				<div key={comment.id} className="modal fade" id={"comment-modal-"+comment.id} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+	        <div className="modal-dialog modal-m" role="document">
+	          <div className="modal-content modal-content-style">
+	            <div className="modal-header">
+	              <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	              <h4 className="modal-title" id="myModalLabel">Edit Comment</h4>
+	            </div>
+	            <div className="modal-body edit-modal-body-style">
+			          <div className="comment-heading">
+									<div className="edit-post-image-container">
+			  						<div className="comment-image"><p>{getInitials(currentUser.name)}</p></div>
+			  					</div>
+			  					<div className="comment-content auto-text-area">
+										<textarea id={"textarea-"+comment.id} className="edit-post-textarea" rows="4" defaultValue={comment.content} placeholder="Write a comment"></textarea>
+			  					</div>
+			  				</div>
+	            </div>
+	            <div className="modal-footer">
+	              <div className="row">
+	                <div className="col-sm-offset-10 col-sm-2">
+	                  <button type="submit" className="btn btn-primary send-message-btn" onClick={this.handleUpdateCommentSubmit} data-id={comment.id}>Update</button>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+			   	</div> 	
+				)
+  	}
+
 
     return (
     	<div>
@@ -178,7 +226,7 @@ class Post extends Component {
 							<div className="comment-image-container">
 	  						<div className="comment-image"><p>{getInitials(currentUser.name)}</p></div>
 	  					</div>
-	  					<div id={"add-comment-" + id} className="add-comment-textarea-align">					  						
+	  					<div id={"add-comment-" + postId} className="add-comment-textarea-align">					  						
 								<textarea className="comment-textarea" rows="1" value={this.state.text} onChange={this.handleCommentContentChange} placeholder="Write a comment"></textarea>
 	  					</div>
 	  					<div className="add-comment-btn-align">
@@ -188,7 +236,7 @@ class Post extends Component {
 					</form>
 				</div>
 
-				<div className="modal fade" id={"modal-"+id} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div className="modal fade" id={"modal-"+postId} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div className="modal-dialog modal-m" role="document">
             <div className="modal-content modal-content-style">
               <div className="modal-header">
@@ -201,7 +249,7 @@ class Post extends Component {
 				  						<div className="comment-image"><p>{getInitials(currentUser.name)}</p></div>
 				  					</div>
 				  					<div className="edit-post-content auto-text-area">
-											<textarea className="edit-post-textarea" rows="4" value={this.state.updatePostContent} onChange={this.handleUpdatePostContentChange} placeholder="Write a post"></textarea>
+											<textarea className="edit-post-textarea" rows="4" onChange={this.handleUpdatePostContentChange} defaultValue={content} placeholder="Write a post"></textarea>
 				  					</div>
 					  			</div>
               </div>
@@ -215,48 +263,16 @@ class Post extends Component {
             </div>
           </div>
       	</div> 	
-        {
-        	comments.map(comment =>
-						<div key={comment.id} className="modal fade" id={"comment-modal-"+comment.id} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-			        <div className="modal-dialog modal-m" role="document">
-			          <div className="modal-content modal-content-style">
-			            <div className="modal-header">
-			              <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			              <h4 className="modal-title" id="myModalLabel">Edit Comment</h4>
-			            </div>
-			            <div className="modal-body edit-modal-body-style">
-					          <div className="comment-heading">
-											<div className="edit-post-image-container">
-					  						<div className="comment-image"><p>{getInitials(currentUser.name)}</p></div>
-					  					</div>
-					  					<div className="comment-content auto-text-area">
-												<textarea id={"textarea-"+comment.id} className="edit-post-textarea" rows="4" placeholder="Write a comment">{comment.content}</textarea>
-					  					</div>
-					  				</div>
-			            </div>
-			            <div className="modal-footer">
-			              <div className="row">
-			                <div className="col-sm-offset-10 col-sm-2">
-			                  <button type="submit" className="btn btn-primary send-message-btn" onClick={this.handleUpdateCommentSubmit} data-id={comment.id}>Update</button>
-			                </div>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-					   	</div> 	
-						)
-        }
+        {allCommentsModals}
+        
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  commenting : state.comments.fetching,
-  commented : state.comments.fetched,
-  commentError : state.comments.error,
-  postFetching : state.posts.fetching,
-  postFetched: state.posts.fetched
+const mapStateToProps = (state,ownProps) => ({
+  post:state.currentUser.posts[ownProps.postId],
+  otherUserPost:state.otherUser.posts[ownProps.postId]
 })
 
 const mapDispatchToProps = { addNewComment, updateComment, deleteComment, updatePost, deletePost } 

@@ -1,4 +1,4 @@
-import { ADD_POST_INIT, ADD_POST_DONE, DELETE_POST_INIT, DELETE_POST_DONE,UPDATE_POST_INIT, UPDATE_POST_DONE } from '../actions/posts.js'
+import { ADD_POST_INIT, ADD_POST_DONE, DELETE_POST_INIT, DELETE_POST_DONE,UPDATE_POST_INIT, UPDATE_POST_DONE } from '../actions/postOperations.js'
 
 const initialState = {
   fetching:false,
@@ -7,7 +7,7 @@ const initialState = {
   error :null
 }
 
-const posts = (state = initialState, action) => {
+const postOperations = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST_INIT:
       return Object.assign({}, state, {
@@ -44,4 +44,4 @@ const posts = (state = initialState, action) => {
   }
 }
 
-export default posts
+export default postOperations

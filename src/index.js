@@ -14,21 +14,25 @@ import './assets/scss/Home.scss'
 import validate from './reducers/login'
 import profileSearch from './reducers/search'
 import profileFetch from './reducers/profileFetch'
-import posts from './reducers/posts'
-import comments from './reducers/comments'
+import postOperations from './reducers/postOperations'
+import commentOperations from './reducers/commentOperations'
 import friendRequests from './reducers/friendRequests'
-import currentUser from './reducers/currentUser'
+import getCurrentUserData from './reducers/getCurrentUserData'
 import messages from './reducers/messages'
+import currentUser from './reducers/currentUser'
+import otherUser from './reducers/otherUser'
 
 let reducers = {
 	validate,
 	profileSearch,
 	profileFetch,
-	posts,
-	comments,
+	postOperations,
+	commentOperations,
 	friendRequests,
+	getCurrentUserData,
+	messages,
 	currentUser,
-	messages
+	otherUser
 }
 
 reducers = combineReducers(reducers)

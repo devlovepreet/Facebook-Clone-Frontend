@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getProfileResults, getProfileResultsById } from '../../actions/profileFetch'
+import { getProfileResultsById } from '../../actions/profileFetch'
 import { sendRequest,confirmRequest, deleteRequest, deleteRequestByUserId } from '../../actions/friendRequests'
 import { sendMessage, getMessages } from '../../actions/messages'
-import { addNewPost } from '../../actions/posts'
+import { addNewPost } from '../../actions/postOperations'
 import Post from './Post'
 import CoverImage from '../../assets/images/cover.jpg'
 import {getInitials} from '../../helpers/Services'
@@ -23,8 +23,12 @@ class Profile extends Component {
     this.handleMessageTextOnChange = this.handleMessageTextOnChange.bind(this)
   }
 
+  componentDidUpdate() {
+    console.log("Profile Rendered")
+  }
+
   handlePostSubmit(event) {
-    const {addNewPost, getProfileResults, postError} = this.props
+    const {addNewPost} = this.props
     event.preventDefault()
     let elem = $('#status-td').children()
     $(elem).height(40)
@@ -46,17 +50,17 @@ class Profile extends Component {
 
   handleSendRequestClick(event){
     event.preventDefault()
-    this.props.sendRequest(this.props.user.id )
+    this.props.sendRequest(this.props.otherUser.id )
   }
 
   handleCancelRequestClick(event){
     event.preventDefault()
-    this.props.deleteRequestByUserId(this.props.user.id)
+    this.props.deleteRequestByUserId(this.props.otherUser.id)
   }
 
   handleConfirmRequestClick(event){
     event.preventDefault()
-    this.props.confirmRequest(this.props.user.id)
+    this.props.confirmRequest(this.props.otherUser.id)
   }
 
   handleMessageTextOnChange(event){
@@ -70,7 +74,7 @@ class Profile extends Component {
 
   handleSendMessageClick(event){
     if(this.state.messageText){
-      this.props.sendMessage(this.props.user.id,this.state.messageText)
+      this.props.sendMessage(this.props.otherUser.id,this.state.messageText)
       this.setState({messageText:''})
 
       let elem = $('#message-div').children()
@@ -80,23 +84,26 @@ class Profile extends Component {
   }
 
   handleMessageButtonClick(event){
-    this.props.getMessages(this.props.user.id)
+    this.props.getMessages(this.props.otherUser.id)
   }
 
   render() {
-  	const {error, user, fetching, fetched, posting , posted , currentUser, messages, getProfileResultsById} = this.props
+  	const { otherUser, currentUser, messages, postIds, otherUserPostIds , getProfileResultsById} = this.props
+
     let tempUser = null
+    let tempPostIds = null
     let profileId = this.props.params.user_id
     profileId = parseInt(profileId)
-    if(profileId && profileId !== currentUser.id) {
-      if (user && user.id === profileId) {
-        tempUser = user
-      } else if (!fetching) {
-        console.log("dhiraj", fetching)
+    if(profileId && profileId != currentUser.id) {
+      if (otherUser && otherUser.id == profileId) {
+        tempUser = otherUser
+        tempPostIds = otherUserPostIds
+      } else {
         getProfileResultsById(profileId)
       }
     } else {
       tempUser = currentUser
+      tempPostIds = postIds
     }
 
     if(!tempUser) {
@@ -105,15 +112,10 @@ class Profile extends Component {
     	)
     }
 
-    let buttonDisabled = null
-    if(posting) {
-      buttonDisabled = "disabled"
-    }
-
     let buttons = null
     let status = null
     let allMessages = null
-    let posts = null
+    let allPosts = null
 
     let showPosts = false
     if(tempUser == currentUser){
@@ -129,7 +131,7 @@ class Profile extends Component {
               </div>
             </div>
             <div className="status-post">
-              <button type="submit" className={"btn btn-primary status-btn status-btn-align "+ buttonDisabled}>Post</button>
+              <button type="submit" className="btn btn-primary status-btn status-btn-align ">Post</button>
             </div>
           </form>
         </div>
@@ -190,15 +192,16 @@ class Profile extends Component {
     }
 
     if(showPosts){
-      posts =  tempUser.posts.map(post =>
-          <Post
-          key={post.id}
-          {...post}
-          name={tempUser.name}
-          post_id={post.id}
-          currentUser = {currentUser}
+      allPosts =  tempPostIds.map(postId => {
+         return <Post
+          key={postId}
+          postId={postId}
           tempUser={tempUser}
-        />) 
+          currentUser={currentUser}
+          name={tempUser.name}
+        />
+      }
+      ) 
 
     }
 
@@ -218,7 +221,7 @@ class Profile extends Component {
   				</div>
   				<div className="col-sm-8">
       				{status}
-              {posts}
+              {allPosts}
       		</div>	
         </div>
         <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -254,17 +257,14 @@ class Profile extends Component {
 }
 
 const mapStateToProps = state => ({
-  fetching : state.profileFetch.fetching,
-  fetched : state.profileFetch.fetched,
-  user : state.profileFetch.user,
-  error : state.profileFetch.error,
-  posting: state.posts.fetching,
-  posted:state.posts.fetched,
+  otherUser : state.otherUser.user,
   currentUser : state.currentUser.user,
-  messages: state.messages.results
+  messages: state.messages.results,
+  postIds: state.currentUser.postIds,
+  otherUserPostIds:state.otherUser.postIds
 })
 
-const mapDispatchToProps = { getProfileResults , getProfileResultsById, addNewPost,sendRequest, confirmRequest, deleteRequest, deleteRequestByUserId, sendMessage, getMessages} 
+const mapDispatchToProps = { getProfileResultsById, addNewPost,sendRequest, confirmRequest, deleteRequest, deleteRequestByUserId, sendMessage, getMessages} 
 
 Profile = connect(
   mapStateToProps,
