@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { getProfileResults, getProfileResultsById } from '../../actions/profileFetch'
 import { sendRequest,confirmRequest, deleteRequest, deleteRequestByUserId } from '../../actions/friendRequests'
 import { sendMessage, getMessages } from '../../actions/messages'
-import { addNewPost } from '../../actions/posts'
+import { addNewPost } from '../../actions/postOperations'
 import Post from './Post'
 import CoverImage from '../../assets/images/cover.jpg'
 import {getInitials} from '../../helpers/Services'
@@ -258,9 +258,9 @@ const mapStateToProps = state => ({
   fetched : state.profileFetch.fetched,
   user : state.profileFetch.user,
   error : state.profileFetch.error,
-  posting: state.posts.fetching,
-  posted:state.posts.fetched,
-  currentUser : state.currentUser.user,
+  posting: state.postOperations.fetching,
+  posted:state.postOperations.fetched,
+  currentUser : state.getCurrentUserData.user,
   messages: state.messages.results
 })
 

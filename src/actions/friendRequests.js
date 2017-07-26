@@ -1,5 +1,4 @@
 import { createAction } from 'redux-actions'
-
 import{ getProfileResultsById} from './profileFetch'
 
 export const GET_REQUESTS_INIT = 'GET_REQUESTS_INIT'
@@ -14,7 +13,6 @@ export const DELETE_REQUEST_DONE = 'DELETE_REQUEST_DONE'
 
 export const SEND_REQUEST_INIT = 'SEND_REQUEST_INIT'
 export const SEND_REQUEST_DONE = 'SEND_REQUEST_DONE'
-
 
 export const getRequestsInit = createAction("GET_REQUESTS_INIT")
 export const getRequestsDone  = createAction("GET_REQUESTS_DONE")

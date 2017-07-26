@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router'
 import { connect } from 'react-redux'
-import { addNewComment, updateComment, deleteComment } from '../../actions/comments'
-import { updatePost, deletePost } from '../../actions/posts'
+import { addNewComment, updateComment, deleteComment } from '../../actions/commentOperations'
+import { updatePost, deletePost } from '../../actions/postOperations'
 import { getInitials } from '../../helpers/Services'
 
 class Post extends Component {
@@ -252,11 +252,11 @@ class Post extends Component {
 }
 
 const mapStateToProps = state => ({
-  commenting : state.comments.fetching,
-  commented : state.comments.fetched,
-  commentError : state.comments.error,
-  postFetching : state.posts.fetching,
-  postFetched: state.posts.fetched
+  commenting : state.commentOperations.fetching,
+  commented : state.commentOperations.fetched,
+  commentError : state.commentOperations.error,
+  postFetching : state.postOperations.fetching,
+  postFetched: state.postOperations.fetched
 })
 
 const mapDispatchToProps = { addNewComment, updateComment, deleteComment, updatePost, deletePost } 

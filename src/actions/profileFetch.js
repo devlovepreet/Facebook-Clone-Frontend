@@ -1,15 +1,15 @@
+import { profileFetch } from "../reducers/profileFetch"
+import { createAction } from 'redux-actions'
+
 export const PROFILE_FETCH_INIT = 'PROFILE_FETCH_INIT'
 export const PROFILE_FETCH_DONE = 'PROFILE_FETCH_DONE'
 export const PROFILE_FETCH_ERROR = 'PROFILE_FETCH_ERROR'
-
-import { profileFetch } from "../reducers/profileFetch"
-import { createAction } from 'redux-actions'
 
 export const profileFetchInit = createAction("PROFILE_FETCH_INIT")
 export const profileFetchDone  = createAction("PROFILE_FETCH_DONE")
 export const profileFetchError  = createAction("PROFILE_FETCH_ERROR")
 
-import {getCurrentUser} from '../actions/currentUser'
+import {getCurrentUser} from '../actions/getCurrentUserData'
 
 export const getProfileResults = () => {
   return dispatch => {

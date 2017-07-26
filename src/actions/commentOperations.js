@@ -1,3 +1,6 @@
+import { createAction } from 'redux-actions'
+import { getProfileResultsById } from './profileFetch'
+
 export const ADD_COMMENT_INIT = 'ADD_COMMENT_INIT'
 export const ADD_COMMENT_DONE = 'ADD_COMMENT_DONE'
 
@@ -6,10 +9,6 @@ export const UPDATE_COMMENT_DONE = 'UPDATE_COMMENT_DONE'
 
 export const DELETE_COMMENT_INIT = 'DELETE_COMMENT_INIT'
 export const DELETE_COMMENT_DONE = 'DELETE_COMMENT_DONE'
-
-import { addComment } from "../reducers/comments"
-import { createAction } from 'redux-actions'
-import { getProfileResultsById } from './profileFetch'
 
 export const addCommentInit = createAction("ADD_COMMENT_INIT")
 export const addCommentDone  = createAction("ADD_COMMENT_DONE")

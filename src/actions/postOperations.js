@@ -1,3 +1,6 @@
+import { createAction } from 'redux-actions'
+import { getProfileResultsById } from './profileFetch'
+
 export const ADD_POST_INIT = 'ADD_POST_INIT'
 export const ADD_POST_DONE = 'ADD_POST_DONE'
 
@@ -6,10 +9,6 @@ export const DELETE_POST_DONE = 'DELETE_POST_DONE'
 
 export const UPDATE_POST_INIT = 'UPDATE_POST_INIT'
 export const UPDATE_POST_DONE = 'UPDATE_POST_DONE'
-
-import { posts } from "../reducers/posts"
-import { createAction } from 'redux-actions'
-import { getProfileResultsById } from './profileFetch'
 
 export const addPostInit = createAction("ADD_POST_INIT")
 export const addPostDone  = createAction("ADD_POST_DONE")

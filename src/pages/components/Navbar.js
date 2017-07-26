@@ -5,7 +5,7 @@ import { getSearchResults } from '../../actions/search'
 import { getRequests, confirmRequest, deleteRequest } from '../../actions/friendRequests'
 import { postLogout } from '../../actions/login'
 import facebookLiteLogo from '../../assets/images/facebook-lite-logo.jpg'
-import {getInitials} from '../../helpers/Services'
+import { getInitials } from '../../helpers/Services'
 
 class Navbar extends Component {
 
