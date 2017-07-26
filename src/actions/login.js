@@ -1,3 +1,6 @@
+import { validate } from "../reducers/login"
+import { createAction } from 'redux-actions'
+
 export const LOGIN_INIT = 'LOGIN_INIT'
 export const LOGIN_DONE = 'LOGIN_DONE'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
@@ -5,9 +8,6 @@ export const LOGIN_ERROR = 'LOGIN_ERROR'
 export const LOGOUT_INIT = 'LOGOUT_INIT'
 export const LOGOUT_DONE = 'LOGOUT_DONE'
 export const LOGOUT_ERROR = 'LOGOUT_ERROR'
-
-import { validate } from "../reducers/login"
-import { createAction } from 'redux-actions'
 
 export const loginInit = createAction("LOGIN_INIT")
 export const loginDone  = createAction("LOGIN_DONE")

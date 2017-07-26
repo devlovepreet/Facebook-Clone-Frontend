@@ -1,3 +1,7 @@
+import { createAction } from 'redux-actions'
+import { getCurrentUser } from './getCurrentUserData'
+import { getProfileResultsById } from './profileFetch'
+
 export const ADD_POST_INIT = 'ADD_POST_INIT'
 export const ADD_POST_DONE = 'ADD_POST_DONE'
 
@@ -6,10 +10,6 @@ export const DELETE_POST_DONE = 'DELETE_POST_DONE'
 
 export const UPDATE_POST_INIT = 'UPDATE_POST_INIT'
 export const UPDATE_POST_DONE = 'UPDATE_POST_DONE'
-
-import { posts } from "../reducers/posts"
-import { createAction } from 'redux-actions'
-import { getProfileResultsById } from './profileFetch'
 
 export const addPostInit = createAction("ADD_POST_INIT")
 export const addPostDone  = createAction("ADD_POST_DONE")
@@ -34,8 +34,9 @@ export const addNewPost = (content) => {
     },
     dataType:'json',
     success: function(result){
-      dispatch(addPostDone())
+      // dispatch(getCurrentUser())
       dispatch(getProfileResultsById(id))
+      dispatch(addPostDone())
     }
     }) 
   }
@@ -54,8 +55,9 @@ export const deletePost = (post_id) => {
     },
     dataType:'json',
     success: function(result){
-      dispatch(deletePostDone())
       dispatch(getProfileResultsById(id))
+      // dispatch(getCurrentUser())
+      dispatch(deletePostDone())
     }
     }) 
   }
@@ -75,8 +77,9 @@ export const updatePost = (post_id,content) => {
     },
     dataType:'json',
     success: function(result){
-      dispatch(updatePostDone())
       dispatch(getProfileResultsById(id))
+      // dispatch(getCurrentUser())
+      dispatch(updatePostDone())
     }
     }) 
   }

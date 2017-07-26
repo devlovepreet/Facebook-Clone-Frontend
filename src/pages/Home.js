@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getCurrentUser } from '../actions/currentUser'
+import { getCurrentUser } from '../actions/getCurrentUserData'
 import Navbar from './components/Navbar'
 import Profile from'./components/Profile'
 
@@ -31,10 +31,10 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-  fetching : state.currentUser.fetching,
-  fetched : state.currentUser.fetched,
-  user : state.currentUser.user,
-  error : state.currentUser.error,
+  fetching : state.getCurrentUserData.fetching,
+  fetched : state.getCurrentUserData.fetched,
+  user : state.getCurrentUserData.user,
+  error : state.getCurrentUserData.error,
 })
 
 const mapDispatchToProps = { getCurrentUser } 

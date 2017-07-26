@@ -1,31 +1,24 @@
-import {CURRENT_USER_INIT, CURRENT_USER_DONE, CURRENT_USER_ERROR} from '../actions/currentUser.js'
+import { SAVE_CURRENT_USER, SAVE_POSTS, SAVE_POST_IDS} from '../actions/getCurrentUserData.js'
 
 const initialState = {
-  fetching:false,
-  fetched:false,
-  user:null,
-  error : null
+  user:{},
+  posts:[],
+  postIds:[]
 }
 
 const currentUser = (state = initialState, action) => {
   switch (action.type) {
-    case CURRENT_USER_INIT:
+    case SAVE_CURRENT_USER:
       return Object.assign({}, state, {
-       fetching: true,
-    })
-    case CURRENT_USER_DONE:
-      return Object.assign({}, state, {
-       fetching: false,
-       fetched: true,
        user: action.payload,
-       error:null
     })
-    case CURRENT_USER_ERROR:
+	  case SAVE_POSTS:
+	  return Object.assign({}, state, {
+	   posts : action.payload
+    })
+	case SAVE_POST_IDS:
       return Object.assign({}, state, {
-       fetching: false,
-       fetched : true,
-       user:null,
-       error: action.payload
+       postIds : action.payload
     })
     default:
       return state

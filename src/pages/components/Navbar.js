@@ -5,7 +5,7 @@ import { getSearchResults } from '../../actions/search'
 import { getRequests, confirmRequest, deleteRequest } from '../../actions/friendRequests'
 import { postLogout } from '../../actions/login'
 import facebookLiteLogo from '../../assets/images/facebook-lite-logo.jpg'
-import {getInitials} from '../../helpers/Services'
+import { getInitials } from '../../helpers/Services'
 
 class Navbar extends Component {
 
@@ -19,7 +19,6 @@ class Navbar extends Component {
   }
 
   componentWillMount(){
-    console.log("Navbar Mounted")
     this.props.getRequests()
   }
 
@@ -52,7 +51,7 @@ class Navbar extends Component {
   }
 
   render() {
-    console.log("Profile")
+    // console.log("Profile")
     const {results, requests, username} = this.props
 
     let searchResultsLis = null
@@ -68,16 +67,16 @@ class Navbar extends Component {
 
 
     let allSearchResults = null
-    console.log(searchResultsLis.length)
-    console.log(searchResultsLis)
+    // console.log(searchResultsLis.length)
+    // console.log(searchResultsLis)
     if(searchResultsLis.length > 0){
-      console.log("allSearchResults : OK")
+      // console.log("allSearchResults : OK")
       allSearchResults = <ul className="dropdown-menu divResults"  aria-labelledby="search-box">
             {searchResultsLis}
         </ul>
     }else{
       allSearchResults = null
-      console.log("allSearchResults : NULL")
+      // console.log("allSearchResults : NULL")
     }
 
     let friendRequestText = null

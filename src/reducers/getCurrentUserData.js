@@ -1,4 +1,4 @@
-import {PROFILE_FETCH_INIT, PROFILE_FETCH_DONE, PROFILE_FETCH_ERROR} from '../actions/profileFetch.js'
+import { GET_CURRENT_USER_INIT, GET_CURRENT_USER_DONE, GET_CURRENT_USER_ERROR} from '../actions/getCurrentUserData.js'
 
 const initialState = {
   fetching:false,
@@ -7,23 +7,20 @@ const initialState = {
   error : null
 }
 
-const profileFetch = (state = initialState, action) => {
+const getCurrentUserData = (state = initialState, action) => {
   switch (action.type) {
-    case PROFILE_FETCH_INIT:
+    case GET_CURRENT_USER_INIT:
       return Object.assign({}, state, {
        fetching: true,
-       fetched:false,
-       user:null,
-       error:null
     })
-    case PROFILE_FETCH_DONE:
+    case GET_CURRENT_USER_DONE:
       return Object.assign({}, state, {
        fetching: false,
        fetched: true,
        user: action.payload,
        error:null
     })
-    case PROFILE_FETCH_ERROR:
+    case GET_CURRENT_USER_ERROR:
       return Object.assign({}, state, {
        fetching: false,
        fetched : true,
@@ -35,4 +32,4 @@ const profileFetch = (state = initialState, action) => {
   }
 }
 
-export default profileFetch
+export default getCurrentUserData

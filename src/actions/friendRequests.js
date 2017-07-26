@@ -1,5 +1,4 @@
 import { createAction } from 'redux-actions'
-
 import{ getProfileResultsById} from './profileFetch'
 
 export const GET_REQUESTS_INIT = 'GET_REQUESTS_INIT'
@@ -14,7 +13,6 @@ export const DELETE_REQUEST_DONE = 'DELETE_REQUEST_DONE'
 
 export const SEND_REQUEST_INIT = 'SEND_REQUEST_INIT'
 export const SEND_REQUEST_DONE = 'SEND_REQUEST_DONE'
-
 
 export const getRequestsInit = createAction("GET_REQUESTS_INIT")
 export const getRequestsDone  = createAction("GET_REQUESTS_DONE")
@@ -58,6 +56,7 @@ export const confirmRequest = (from_user_id) => {
     success: function(result){
       dispatch(comfirmRequestDone())
       dispatch(getRequests())
+      dispatch(getProfileResultsById(from_user_id))
     }
     }) 
   }
@@ -111,8 +110,8 @@ export const sendRequest = (to_user_id) => {
     },
     dataType:'json',
     success: function(result){
-      dispatch(sendRequestDone())
       dispatch(getProfileResultsById(to_user_id))
+      dispatch(sendRequestDone())
     },
     }) 
   }
