@@ -88,19 +88,22 @@ class Profile extends Component {
   }
 
   render() {
-  	const { otherUser, currentUser, messages, postIds , getProfileResultsById} = this.props
+  	const { otherUser, currentUser, messages, postIds, otherUserPostIds , getProfileResultsById} = this.props
 
     let tempUser = null
+    let tempPostIds = null
     let profileId = this.props.params.user_id
     profileId = parseInt(profileId)
     if(profileId && profileId != currentUser.id) {
       if (otherUser && otherUser.id == profileId) {
         tempUser = otherUser
+        tempPostIds = otherUserPostIds
       } else {
         getProfileResultsById(profileId)
       }
     } else {
       tempUser = currentUser
+      tempPostIds = postIds
     }
 
     if(!tempUser) {
@@ -189,7 +192,7 @@ class Profile extends Component {
     }
 
     if(showPosts){
-      allPosts =  postIds.map(postId => {
+      allPosts =  tempPostIds.map(postId => {
          return <Post
           key={postId}
           postId={postId}
@@ -257,7 +260,8 @@ const mapStateToProps = state => ({
   otherUser : state.otherUser.user,
   currentUser : state.currentUser.user,
   messages: state.messages.results,
-  postIds: state.postIds.postIds
+  postIds: state.currentUser.postIds,
+  otherUserPostIds:state.otherUser.postIds
 })
 
 const mapDispatchToProps = { getProfileResultsById, addNewPost,sendRequest, confirmRequest, deleteRequest, deleteRequestByUserId, sendMessage, getMessages} 

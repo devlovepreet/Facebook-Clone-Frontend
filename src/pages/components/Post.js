@@ -90,22 +90,19 @@ class Post extends Component {
 
 
   render() {
-  	const {name,currentUser, tempUser,postId,post} = this.props
+  	const {name,currentUser, tempUser,postId,post,otherUserPost} = this.props
 
   	let editDeletePost = null
   	let deletable = false
   	let updated_at= null 
   	let content = null
 
-  	// if(!post){
-  	// 	return (
-   //  		<div></div>
-   //  	)
-  	// }
+  	let tempPost = null
 		
   	if(tempUser == currentUser){
 
   		deletable = true
+  		tempPost = post
 
 	  	editDeletePost = <div className="post-caret pull-right">
 					<div className="dropdown">
@@ -117,13 +114,16 @@ class Post extends Component {
 	        </div>
 				</div>
   	}
+  	else{
+  		tempPost = otherUserPost
+  	}
 
   	let allComments = null
   	let allCommentsModals = null
-  	if(post){
-  		updated_at = post.updated_at
-  		content = post.content
-  		allComments = post.comments.map(comment => {
+  	if(tempPost){
+  		updated_at = tempPost.updated_at
+  		content = tempPost.content
+  		allComments = tempPost.comments.map(comment => {
 				let editComment = null
 				if(comment.isEditable){
 					editComment = <li><a data-toggle="modal" data-target={"#comment-modal-"+comment.id}>Edit</a></li>
@@ -164,7 +164,7 @@ class Post extends Component {
 	  		}
 			)
 
-			allCommentsModals = post.comments.map(comment =>
+			allCommentsModals = tempPost.comments.map(comment =>
 				<div key={comment.id} className="modal fade" id={"comment-modal-"+comment.id} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
 	        <div className="modal-dialog modal-m" role="document">
 	          <div className="modal-content modal-content-style">
@@ -178,7 +178,7 @@ class Post extends Component {
 			  						<div className="comment-image"><p>{getInitials(currentUser.name)}</p></div>
 			  					</div>
 			  					<div className="comment-content auto-text-area">
-										<textarea id={"textarea-"+comment.id} className="edit-post-textarea" rows="4" placeholder="Write a comment">{comment.content}</textarea>
+										<textarea id={"textarea-"+comment.id} className="edit-post-textarea" rows="4" defaultValue={comment.content} placeholder="Write a comment"></textarea>
 			  					</div>
 			  				</div>
 	            </div>
@@ -249,7 +249,7 @@ class Post extends Component {
 				  						<div className="comment-image"><p>{getInitials(currentUser.name)}</p></div>
 				  					</div>
 				  					<div className="edit-post-content auto-text-area">
-											<textarea className="edit-post-textarea" rows="4" value={this.state.updatePostContent} onChange={this.handleUpdatePostContentChange} placeholder="Write a post"></textarea>
+											<textarea className="edit-post-textarea" rows="4" onChange={this.handleUpdatePostContentChange} defaultValue={content} placeholder="Write a post"></textarea>
 				  					</div>
 					  			</div>
               </div>
@@ -271,7 +271,8 @@ class Post extends Component {
 }
 
 const mapStateToProps = (state,ownProps) => ({
-  post:state.posts.posts[ownProps.postId],
+  post:state.currentUser.posts[ownProps.postId],
+  otherUserPost:state.otherUser.posts[ownProps.postId]
 })
 
 const mapDispatchToProps = { addNewComment, updateComment, deleteComment, updatePost, deletePost } 

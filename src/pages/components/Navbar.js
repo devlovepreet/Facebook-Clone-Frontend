@@ -19,7 +19,6 @@ class Navbar extends Component {
   }
 
   componentWillMount(){
-    console.log("Navbar Mounted")
     this.props.getRequests()
   }
 

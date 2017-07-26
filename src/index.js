@@ -20,8 +20,6 @@ import friendRequests from './reducers/friendRequests'
 import getCurrentUserData from './reducers/getCurrentUserData'
 import messages from './reducers/messages'
 import currentUser from './reducers/currentUser'
-import posts from './reducers/posts'
-import postIds from './reducers/postIds'
 import otherUser from './reducers/otherUser'
 
 let reducers = {
@@ -34,8 +32,6 @@ let reducers = {
 	getCurrentUserData,
 	messages,
 	currentUser,
-	posts,
-	postIds,
 	otherUser
 }
 

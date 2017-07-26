@@ -1,8 +1,9 @@
-import { SAVE_CURRENT_USER} from '../actions/getCurrentUserData.js'
+import { SAVE_CURRENT_USER, SAVE_POSTS, SAVE_POST_IDS} from '../actions/getCurrentUserData.js'
 
 const initialState = {
   user:{},
-  posts:[]
+  posts:[],
+  postIds:[]
 }
 
 const currentUser = (state = initialState, action) => {
@@ -14,6 +15,10 @@ const currentUser = (state = initialState, action) => {
 	  case SAVE_POSTS:
 	  return Object.assign({}, state, {
 	   posts : action.payload
+    })
+	case SAVE_POST_IDS:
+      return Object.assign({}, state, {
+       postIds : action.payload
     })
     default:
       return state

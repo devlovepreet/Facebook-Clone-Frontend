@@ -1,7 +1,9 @@
-import { SAVE_OTHER_USER} from '../actions/profileFetch.js'
+import { SAVE_OTHER_USER, SAVE_OTHER_USER_POSTS, SAVE_OTHER_USER_POSTS_IDS} from '../actions/profileFetch.js'
 
 const initialState = {
   user:{},
+  posts:[],
+  postIds:[]
 }
 
 const otherUser = (state = initialState, action) => {
@@ -10,6 +12,15 @@ const otherUser = (state = initialState, action) => {
       return Object.assign({}, state, {
        user: action.payload,
     })
+    case SAVE_OTHER_USER_POSTS:
+      return Object.assign({}, state, {
+       posts: action.payload,
+    })
+    case SAVE_OTHER_USER_POSTS_IDS:
+      return Object.assign({}, state, {
+       postIds: action.payload,
+    })
+
     default:
       return state
   }

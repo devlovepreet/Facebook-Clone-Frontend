@@ -56,6 +56,7 @@ export const confirmRequest = (from_user_id) => {
     success: function(result){
       dispatch(comfirmRequestDone())
       dispatch(getRequests())
+      dispatch(getProfileResultsById(from_user_id))
     }
     }) 
   }
@@ -109,8 +110,8 @@ export const sendRequest = (to_user_id) => {
     },
     dataType:'json',
     success: function(result){
-      dispatch(sendRequestDone())
       dispatch(getProfileResultsById(to_user_id))
+      dispatch(sendRequestDone())
     },
     }) 
   }
