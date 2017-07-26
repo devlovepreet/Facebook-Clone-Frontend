@@ -22,6 +22,7 @@ import messages from './reducers/messages'
 import currentUser from './reducers/currentUser'
 import posts from './reducers/posts'
 import postIds from './reducers/postIds'
+import otherUser from './reducers/otherUser'
 
 let reducers = {
 	validate,
@@ -34,7 +35,8 @@ let reducers = {
 	messages,
 	currentUser,
 	posts,
-	postIds
+	postIds,
+	otherUser
 }
 
 reducers = combineReducers(reducers)

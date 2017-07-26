@@ -1,4 +1,5 @@
 import { createAction } from 'redux-actions'
+import { getCurrentUser } from './getCurrentUserData'
 import { getProfileResultsById } from './profileFetch'
 
 export const ADD_POST_INIT = 'ADD_POST_INIT'
@@ -33,8 +34,9 @@ export const addNewPost = (content) => {
     },
     dataType:'json',
     success: function(result){
-      dispatch(addPostDone())
+      // dispatch(getCurrentUser())
       dispatch(getProfileResultsById(id))
+      dispatch(addPostDone())
     }
     }) 
   }
@@ -53,8 +55,9 @@ export const deletePost = (post_id) => {
     },
     dataType:'json',
     success: function(result){
-      dispatch(deletePostDone())
       dispatch(getProfileResultsById(id))
+      // dispatch(getCurrentUser())
+      dispatch(deletePostDone())
     }
     }) 
   }
@@ -74,8 +77,9 @@ export const updatePost = (post_id,content) => {
     },
     dataType:'json',
     success: function(result){
-      dispatch(updatePostDone())
       dispatch(getProfileResultsById(id))
+      // dispatch(getCurrentUser())
+      dispatch(updatePostDone())
     }
     }) 
   }

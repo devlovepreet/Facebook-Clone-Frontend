@@ -12,6 +12,9 @@ const profileFetch = (state = initialState, action) => {
     case PROFILE_FETCH_INIT:
       return Object.assign({}, state, {
        fetching: true,
+       fetched:false,
+       user:null,
+       error:null
     })
     case PROFILE_FETCH_DONE:
       return Object.assign({}, state, {
