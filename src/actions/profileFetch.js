@@ -25,9 +25,7 @@ export const getProfileResultsById = (id) => {
     if(fetching) {
       return
     }
-    // console.log(state.currentUser.user.id)
     if(id === user) {
-      console.log("Current User fetched in getProfileResultsById")
       dispatch(getCurrentUser())
       return
     }
@@ -40,14 +38,12 @@ export const getProfileResultsById = (id) => {
     },
     dataType:'json',
     success: function(result){
-      console.log(result)
       dispatch(saveOtherUserPosts(result.posts))
       dispatch(saveOtherUserPostsIds(result.postIds))
       dispatch(saveOtherUser(result.user))
       dispatch(profileFetchDone(result.user))
     },
     error: function(result){
-      console.log(result)
       dispatch(profileFetchError(result.responseText.error))
     }
     }) 

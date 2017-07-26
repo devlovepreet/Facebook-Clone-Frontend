@@ -29,7 +29,6 @@ export const getCurrentUser = () => {
     },
     dataType:'json',
     success: function(result){
-      // console.log(result)
       dispatch(savePostIds(result.postIds))
       dispatch(savePosts(result.posts))
       dispatch(saveCurrentUser(result.user))
